@@ -1,0 +1,41 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Agent workspace memory (local only, never commit)
+.workbuddy/
+
+# pnpm local content-addressable store (cache, never commit)
+.pnpm-store/
+
+# Scratch / verification artifacts (screenshots, previews, verify scripts)
+*screenshot*.png
+step*.png
+verify-*.png
+login-page-*.png
+ui-preview.html
+styles-preview.html
+layout-preview.html
+verify-templates.js
+ui-schemes-preview.canvas.tsx
