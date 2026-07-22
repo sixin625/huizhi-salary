@@ -40,9 +40,11 @@ See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rule
 ### 准备工作
 1. 在域名 DNS 处为子域名（如 `salary.你的域名.com`）添加 **A 记录指向 ECS 公网 IP**。
 2. 阿里云**安全组**放开 `80`、`443` 端口（应用端口 3001 仅本地监听，无需对外开放）。
-3. 把代码推到 GitHub。
+3. 把代码传到服务器。两种方式任选其一：
+   - **方式 A（需 GitHub）**：推到 GitHub，再用脚本 `git clone`。
+   - **方式 B（无需 GitHub，推荐新手）**：在本机把代码打成压缩包，`scp` 上传到服务器解压（见下方方式 B）。
 
-### 一键初始化（首次）
+### 方式 A：用 GitHub（可选）
 SSH 进服务器后执行：
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/你的仓库/deploy/setup-aliyun.sh) \
@@ -50,7 +52,21 @@ bash <(curl -fsSL https://raw.githubusercontent.com/你的仓库/deploy/setup-al
 ```
 脚本会自动：装 Node 22 + 编译工具 → 克隆代码 → `pnpm install && pnpm build` → PM2 开机自启 → 配置 nginx 反代 → 申请 HTTPS 证书。
 
-> 也可手动：先 `git clone` 到 `/var/www/salary`，再 `bash deploy/setup-aliyun.sh <仓库> <域名>`（脚本会跳过克隆）。
+### 方式 B：直接上传（无需 GitHub）
+在你自己的电脑上（Windows 用 Git Bash）：
+```bash
+cd 工资网页
+bash deploy/package-local.sh          # 生成干净压缩包 salary-deploy.tar.gz
+scp salary-deploy.tar.gz root@你的ECS公网IP:/tmp/
+```
+然后 SSH 进服务器：
+```bash
+ssh root@你的ECS公网IP
+mkdir -p /var/www/salary && tar -xzf /tmp/salary-deploy.tar.gz -C /var/www/salary
+cd /var/www/salary
+bash deploy/setup-aliyun.sh salary.你的域名.com     # 只传子域名，不带仓库地址
+```
+> 脚本会自动：装 Node 22 + 编译工具 → 用当前目录代码 → 生成 `server/.env`（随机 `JWT_SECRET`）→ `pnpm install && pnpm build` → PM2 开机自启 → 配置 nginx 反代 → 申请 HTTPS 证书。
 
 ### 后续更新
 ```bash
@@ -62,11 +78,12 @@ cd /var/www/salary && bash deploy/deploy.sh
 |------|------|
 | `ecosystem.config.cjs` | PM2 进程配置（含 `JWT_SECRET` 等生产环境变量） |
 | `deploy/nginx-salary.conf` | 子域名反代模板（certbot 自动加 HTTPS） |
-| `deploy/setup-aliyun.sh` | 首装一键脚本 |
-| `deploy/deploy.sh` | 更新部署脚本 |
+| `deploy/setup-aliyun.sh` | 首装一键脚本（支持「本地目录」与「Git 克隆」两种模式） |
+| `deploy/deploy.sh` | 更新部署脚本（有 git 则 pull，否则手动覆盖） |
+| `deploy/package-local.sh` | 本机打包脚本，生成干净压缩包（无需 GitHub） |
 
 ### 上线后必做
-- 修改 `ecosystem.config.cjs` 里的 `JWT_SECRET` 为随机长串（`openssl rand -hex 32`），改完 `pm2 reload huizhi-salary`。
+- `JWT_SECRET` 已由部署脚本自动生成随机长串并写入 `server/.env`（无需手动改）。如需更换：`openssl rand -hex 32` 后替换 `server/.env` 中的值，再 `pm2 reload huizhi-salary`。
 - 默认管理员账号 `admin / admin123`，务必登录后改密码。
 - 数据库为 SQLite 文件，落在 `server/data/salary.db`（ECS 磁盘持久，重启不丢）。如需备份：`cp server/data/salary.db backup-$(date +%F).db`。
 
