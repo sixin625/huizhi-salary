@@ -86,8 +86,12 @@ fi
 pnpm install
 pnpm build
 
-# 5. PM2 启动并设为开机自启
-pm2 start ecosystem.config.cjs --env production
+# 5. PM2 启动并设为开机自启（幂等：已存在则重启，避免重跑时报“名字已存在”）
+if pm2 describe huizhi-salary >/dev/null 2>&1; then
+  pm2 restart huizhi-salary --env production
+else
+  pm2 start ecosystem.config.cjs --env production
+fi
 pm2 save
 sudo env PATH="$PATH:/usr/bin" pm2 startup systemd -u "$USER" --hp "$HOME"
 
