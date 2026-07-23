@@ -82,8 +82,9 @@ if [ ! -f server/.env ]; then
   fi
 fi
 
-# 4. 安装 + 构建（postinstall 会自动编译 better-sqlite3 原生模块）
-pnpm install
+# 4. 安装 + 构建（better-sqlite3 原生模块需现场编译；新 pnpm 默认拦截构建脚本，故显式重建）
+pnpm install || echo ">> 提示: pnpm install 返回非零，将继续尝试重建原生模块"
+( cd server && pnpm rebuild better-sqlite3 ) || echo ">> 提示: better-sqlite3 重建被跳过（可能已编译）"
 pnpm build
 
 # 5. PM2 启动并设为开机自启（幂等：已存在则重启，避免重跑时报“名字已存在”）
