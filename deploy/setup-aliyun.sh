@@ -96,15 +96,97 @@ fi
 pm2 save
 sudo env PATH="$PATH:/usr/bin" pm2 startup systemd -u "$USER" --hp "$HOME"
 
-# 6. nginx 反代
-sudo cp deploy/nginx-salary.conf /etc/nginx/sites-available/salary
-sudo sed -i "s/salary.YOURDOMAIN.com/$DOMAIN/" /etc/nginx/sites-available/salary
-sudo ln -sf /etc/nginx/sites-available/salary /etc/nginx/sites-enabled/
-sudo nginx -t && sudo systemctl reload nginx
+# 6. 反向代理（系统 nginx，配置独立置于 conf.d，不影响其他站点，如 sky.conf）
+#    说明：本机 80/443 已由系统 nginx 接管（openresty 旧进程已退出）。
+#    脚本只新增 /etc/nginx/conf.d/salary.conf 一个文件，reload 是平滑的，
+#    不会改动其他站点的配置，也不会中断现有连接。
+#    若 80/443 仍被其他进程（如 openresty）占用导致 nginx 起不来，
+#    请先确认反代架构后再重跑，脚本不会擅自杀掉其他 Web 服务。
+sudo systemctl enable --now nginx 2>/dev/null || true
+SALARY_CONF=/etc/nginx/conf.d/salary.conf
 
-# 7. 申请 HTTPS 证书（需先把子域名 DNS A 记录指向本机公网 IP）
-sudo apt-get install -y certbot python3-certbot-nginx
-sudo certbot --nginx -d "$DOMAIN"
+# 6a. 先写「仅 80」配置，供 Let's Encrypt 的 http-01 验证（ACME 路径走静态 root）
+sudo tee "$SALARY_CONF" >/dev/null <<EOF
+# 喙语薪资系统 反向代理（由 setup-aliyun.sh 自动生成，请勿手动修改）
+# HTTP: ACME 验证 + 反向代理到后端 3001
+server {
+    listen 80;
+    listen [::]:80;
+    server_name $DOMAIN;
+
+    # Let's Encrypt 验证路径（证书签发/续期需要，必须走静态文件）
+    location /.well-known/acme-challenge/ {
+        root /usr/share/nginx/html;
+    }
+
+    # 其余请求反代到本地 Node 后端（3001）
+    location / {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+EOF
+sudo nginx -t && ( sudo systemctl reload nginx 2>/dev/null || sudo systemctl restart nginx )
+
+# 7. 申请 HTTPS 证书（webroot 模式：只签 salary 这一个域名，不改动其他站点配置）
+sudo apt-get install -y certbot
+if [ ! -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
+  sudo certbot certonly --webroot -w /usr/share/nginx/html \
+    -d "$DOMAIN" --non-interactive --agree-tos \
+    -m admin@huiyuzg.cn \
+    --deploy-hook "systemctl reload nginx"
+else
+  echo ">> 证书已存在，跳过签发"
+fi
+
+# 7b. 证书就绪后，升级为「80 跳转 + 443」完整配置（注意：certbot 用 webroot，
+#     不会像 --nginx 插件那样改写其他 server 块，其他站点配置完全不受影响）
+sudo tee "$SALARY_CONF" >/dev/null <<EOF
+# 喙语薪资系统 反向代理（由 setup-aliyun.sh 自动生成，请勿手动修改）
+server {
+    listen 80;
+    listen [::]:80;
+    server_name $DOMAIN;
+
+    location /.well-known/acme-challenge/ {
+        root /usr/share/nginx/html;
+    }
+
+    # HTTP 全部 301 跳转到 HTTPS
+    location / {
+        return 301 https://\$host\$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name $DOMAIN;
+
+    ssl_certificate /etc/letsencrypt/live/$DOMAIN/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$DOMAIN/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+
+    location / {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+EOF
+sudo nginx -t && ( sudo systemctl reload nginx 2>/dev/null || sudo systemctl restart nginx )
 
 echo ""
 echo "🎉 部署完成！访问 https://$DOMAIN"
