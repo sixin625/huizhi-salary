@@ -114,6 +114,9 @@ server {
     listen [::]:80;
     server_name $DOMAIN;
 
+    # 工资条导入/导出可能上传文件，放大 body 上限
+    client_max_body_size 10m;
+
     # Let's Encrypt 验证路径（证书签发/续期需要，必须走静态文件）
     location /.well-known/acme-challenge/ {
         root /usr/share/nginx/html;
@@ -154,6 +157,9 @@ server {
     listen [::]:80;
     server_name $DOMAIN;
 
+    # 工资条导入/导出可能上传文件，放大 body 上限
+    client_max_body_size 10m;
+
     location /.well-known/acme-challenge/ {
         root /usr/share/nginx/html;
     }
@@ -168,6 +174,9 @@ server {
     listen 443 ssl;
     listen [::]:443 ssl;
     server_name $DOMAIN;
+
+    # 工资条导入/导出可能上传文件，放大 body 上限
+    client_max_body_size 10m;
 
     ssl_certificate /etc/letsencrypt/live/$DOMAIN/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/$DOMAIN/privkey.pem;
