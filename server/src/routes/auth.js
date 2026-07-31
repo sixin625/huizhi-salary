@@ -89,4 +89,38 @@ router.post('/logout', (req, res) => {
   res.json({ success: true })
 })
 
+// POST /api/auth/change-password — 修改当前登录用户密码（需登录）
+router.post('/change-password', requireAuth, (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body
+
+    if (!oldPassword || !newPassword) {
+      return res.status(400).json({ error: '原密码和新密码不能为空' })
+    }
+    if (newPassword.length < 6) {
+      return res.status(400).json({ error: '新密码长度至少 6 位' })
+    }
+    if (oldPassword === newPassword) {
+      return res.status(400).json({ error: '新密码不能与原密码相同' })
+    }
+
+    const db = getDb()
+    const user = db.prepare('SELECT * FROM employees WHERE id = ?').get(req.user.id)
+    if (!user) {
+      return res.status(404).json({ error: '用户不存在' })
+    }
+
+    if (!bcrypt.compareSync(oldPassword, user.password)) {
+      return res.status(401).json({ error: '原密码错误' })
+    }
+
+    const hash = bcrypt.hashSync(newPassword, 10)
+    db.prepare('UPDATE employees SET password = ? WHERE id = ?').run(hash, user.id)
+
+    res.json({ success: true })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 module.exports = router

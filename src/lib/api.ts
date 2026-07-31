@@ -55,6 +55,11 @@ export const authApi = {
     apiFetch<{ user: any }>('/api/auth/me'),
   logout: () =>
     apiFetch<{ success: boolean }>('/api/auth/logout', { method: 'POST' }),
+  changePassword: (oldPassword: string, newPassword: string) =>
+    apiFetch<{ success: boolean }>('/api/auth/change-password', {
+      method: 'POST',
+      body: JSON.stringify({ oldPassword, newPassword }),
+    }),
 }
 
 // ─── Employee API ───

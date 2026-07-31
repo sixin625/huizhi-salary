@@ -8,6 +8,7 @@ import {
   ReceiptTextIcon,
   UserIcon,
   LogOutIcon,
+  KeyRoundIcon,
 } from 'lucide-react'
 
 interface NavItem {
@@ -19,6 +20,7 @@ interface NavItem {
 const employeeNavItems: NavItem[] = [
   { to: '/employee/payslip', label: '我的工资条', icon: ReceiptTextIcon },
   { to: '/employee/profile', label: '个人信息', icon: UserIcon },
+  { to: '/employee/change-password', label: '修改密码', icon: KeyRoundIcon },
 ]
 
 export default function EmployeeLayout() {
