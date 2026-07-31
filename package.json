@@ -51,5 +51,12 @@
     "tailwindcss": "^4.3.2",
     "typescript": "~6.0.2",
     "vite": "^8.1.1"
+  },
+  "pnpm": {
+    "supportedArchitectures": {
+      "os": ["linux", "darwin", "win32", "current"],
+      "cpu": ["x64", "arm64", "current"],
+      "libc": ["glibc", "musl", "current"]
+    }
   }
 }
