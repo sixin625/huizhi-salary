@@ -47,8 +47,8 @@ See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rule
 ### 方式 A：用 GitHub（可选）
 SSH 进服务器后执行：
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/你的仓库/deploy/setup-aliyun.sh) \
-  https://github.com/你的仓库/salary-web.git salary.你的域名.com
+bash <(curl -fsSL https://raw.githubusercontent.com/sixin625/huizhi-salary/main/deploy/setup-server.sh) \
+  https://github.com/sixin625/huizhi-salary.git salary.你的域名.com
 ```
 脚本会自动：装 Node 22 + 编译工具 → 克隆代码 → `pnpm install && pnpm build` → PM2 开机自启 → 配置 nginx 反代 → 申请 HTTPS 证书。
 
@@ -64,7 +64,7 @@ scp salary-deploy.tar.gz root@你的ECS公网IP:/tmp/
 ssh root@你的ECS公网IP
 mkdir -p /var/www/salary && tar -xzf /tmp/salary-deploy.tar.gz -C /var/www/salary
 cd /var/www/salary
-bash deploy/setup-aliyun.sh salary.你的域名.com     # 只传子域名，不带仓库地址
+bash deploy/setup-server.sh salary.你的域名.com     # 只传域名（或传公网IP则仅HTTP，不签证书）
 ```
 > 脚本会自动：装 Node 22 + 编译工具 → 用当前目录代码 → 生成 `server/.env`（随机 `JWT_SECRET`）→ `pnpm install && pnpm build` → PM2 开机自启 → 配置 nginx 反代 → 申请 HTTPS 证书。
 
@@ -77,8 +77,8 @@ cd /var/www/salary && bash deploy/deploy.sh
 | 文件 | 作用 |
 |------|------|
 | `ecosystem.config.cjs` | PM2 进程配置（含 `JWT_SECRET` 等生产环境变量） |
-| `deploy/nginx-salary.conf` | 子域名反代模板（certbot 自动加 HTTPS） |
-| `deploy/setup-aliyun.sh` | 首装一键脚本（支持「本地目录」与「Git 克隆」两种模式） |
+| `deploy/nginx-salary.conf` | 反代配置参考模板（脚本现以内联方式写入 `/etc/nginx/conf.d/salary.conf`） |
+| `deploy/setup-server.sh` | 通用首装一键脚本（支持 Ubuntu/CentOS，传域名则签 HTTPS，传 IP 则仅 HTTP） |
 | `deploy/deploy.sh` | 更新部署脚本（有 git 则 pull，否则手动覆盖） |
 | `deploy/package-local.sh` | 本机打包脚本，生成干净压缩包（无需 GitHub） |
 
