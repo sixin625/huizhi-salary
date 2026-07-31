@@ -150,8 +150,8 @@ export default function LoginPage() {
 
         {/* 演示账号提示 */}
         <div className="mt-6 rounded-none border border-[var(--ink-rule)] bg-transparent p-3 text-center anim-fade-in">
-          <p className="text-xs text-primary">管理员：admin / admin123</p>
           <p className="text-xs text-primary">普通员工：tom / 123456</p>
+          <p className="text-xs text-muted-foreground">管理员密码已单独设置，请用新密码登录</p>
         </div>
 
         {/* 底部版权信息 */}
