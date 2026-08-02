@@ -10,6 +10,7 @@ import SalaryRecordsPage from '@/pages/admin/SalaryRecordsPage'
 import PayslipPage from '@/pages/employee/PayslipPage'
 import ProfilePage from '@/pages/employee/ProfilePage'
 import ChangePasswordPage from '@/pages/ChangePasswordPage'
+import AccountSettingsPage from '@/pages/AccountSettingsPage'
 
 export const router = createBrowserRouter([
   {
@@ -29,6 +30,7 @@ export const router = createBrowserRouter([
           { path: 'salary/input', element: <SalaryInputPage /> },
           { path: 'salary/records', element: <SalaryRecordsPage /> },
           { path: 'change-password', element: <ChangePasswordPage /> },
+          { path: 'account', element: <AccountSettingsPage /> },
         ],
       },
     ],
@@ -44,6 +46,7 @@ export const router = createBrowserRouter([
           { path: 'payslip', element: <PayslipPage /> },
           { path: 'profile', element: <ProfilePage /> },
           { path: 'change-password', element: <ChangePasswordPage /> },
+          { path: 'account', element: <AccountSettingsPage /> },
         ],
       },
     ],

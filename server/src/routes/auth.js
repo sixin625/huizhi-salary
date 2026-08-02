@@ -123,4 +123,66 @@ router.post('/change-password', requireAuth, (req, res) => {
   }
 })
 
+// POST /api/auth/update-profile — 修改当前登录用户的账号资料（用户名/姓名/手机/邮箱）
+router.post('/update-profile', requireAuth, (req, res) => {
+  try {
+    const { username, name, phone, email } = req.body || {}
+    const db = getDb()
+    const current = db.prepare('SELECT * FROM employees WHERE id = ?').get(req.user.id)
+    if (!current) {
+      return res.status(404).json({ error: '用户不存在' })
+    }
+
+    const updates = {}
+    if (username !== undefined && username !== current.username) {
+      const u = String(username).trim()
+      if (u.length < 3) {
+        return res.status(400).json({ error: '用户名至少 3 个字符' })
+      }
+      const clash = db
+        .prepare('SELECT id FROM employees WHERE username = ? AND id != ?')
+        .get(u, current.id)
+      if (clash) {
+        return res.status(400).json({ error: '该用户名已被占用' })
+      }
+      updates.username = u
+    }
+    if (name !== undefined) {
+      const n = String(name).trim()
+      if (!n) {
+        return res.status(400).json({ error: '姓名不能为空' })
+      }
+      updates.name = n
+    }
+    if (phone !== undefined) updates.phone = phone === '' ? null : String(phone)
+    if (email !== undefined) updates.email = email === '' ? null : String(email)
+
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({ error: '没有可更新的内容' })
+    }
+
+    const setClause = Object.keys(updates)
+      .map((k) => `${k} = ?`)
+      .join(', ')
+    db.prepare(`UPDATE employees SET ${setClause} WHERE id = ?`).run(
+      ...Object.values(updates),
+      current.id
+    )
+
+    const user = db.prepare(`
+      SELECT e.id, e.username, e.name, e.phone, e.email, e.campus_id, e.department_id,
+             e.hire_date, e.base_salary, e.status, e.is_admin, e.created_at,
+             c.name as campus_name, d.name as department_name
+      FROM employees e
+      LEFT JOIN campuses c ON e.campus_id = c.id
+      LEFT JOIN departments d ON e.department_id = d.id
+      WHERE e.id = ?
+    `).get(current.id)
+
+    res.json({ success: true, user })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 module.exports = router

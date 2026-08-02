@@ -8,8 +8,6 @@ import {
   Loader2Icon,
   LockIcon,
   UserIcon,
-  EyeIcon,
-  EyeOffIcon,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -25,7 +23,6 @@ type LoginFormData = z.infer<typeof loginSchema>
 
 export default function LoginPage() {
   const { user, loading, signIn, isAdmin } = useAuthStore()
-  const [showPassword, setShowPassword] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
   const {
@@ -106,24 +103,12 @@ export default function LoginPage() {
               <LockIcon className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 id="password"
-                type={showPassword ? 'text' : 'password'}
+                type="password"
                 autoComplete="current-password"
                 placeholder="••••••••"
-                className="h-10 pl-9 pr-9 bg-white border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:shadow-[0_0_0_3px_var(--focus-ring)] focus-visible:ring-0"
+                className="h-10 pl-9 bg-white border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:shadow-[0_0_0_3px_var(--focus-ring)] focus-visible:ring-0"
                 {...register('password')}
               />
-              <button
-                type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
-                tabIndex={-1}
-              >
-                {showPassword ? (
-                  <EyeOffIcon className="size-4" />
-                ) : (
-                  <EyeIcon className="size-4" />
-                )}
-              </button>
             </div>
             {errors.password && (
               <p className="text-xs text-destructive">{errors.password.message}</p>

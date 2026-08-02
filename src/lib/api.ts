@@ -60,6 +60,16 @@ export const authApi = {
       method: 'POST',
       body: JSON.stringify({ oldPassword, newPassword }),
     }),
+  updateProfile: (data: {
+    username?: string
+    name?: string
+    phone?: string
+    email?: string
+  }) =>
+    apiFetch<{ success: boolean; user: any }>('/api/auth/update-profile', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
 }
 
 // ─── Employee API ───

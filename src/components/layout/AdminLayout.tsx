@@ -18,6 +18,7 @@ import {
   LogOutIcon,
   MenuIcon,
   KeyRoundIcon,
+  SettingsIcon,
 } from 'lucide-react'
 
 interface NavItem {
@@ -32,6 +33,7 @@ const adminNavItems: NavItem[] = [
   { to: '/admin/salary/input', label: '薪资录入', icon: CalculatorIcon },
   { to: '/admin/salary/records', label: '薪资记录', icon: FileTextIcon },
   { to: '/admin/change-password', label: '修改密码', icon: KeyRoundIcon },
+  { to: '/admin/account', label: '账号设置', icon: SettingsIcon },
 ]
 
 function NavItems({ onNavigate }: { onNavigate?: () => void }) {

@@ -31,6 +31,7 @@ interface AuthState {
   signIn: (username: string, password: string) => Promise<{ error: string | null }>
   signOut: () => Promise<void>
   initialize: () => Promise<void>
+  refresh: () => Promise<void>
   isAdmin: () => boolean
 }
 
@@ -79,4 +80,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   // 后端 SQLite 中 is_admin 为 0/1，使用 Boolean() 兼容
   isAdmin: () => Boolean(get().employee?.is_admin),
+
+  // 更新资料后从 /me 重新拉取并刷新内存中的 employee
+  refresh: async () => {
+    try {
+      const { user } = await authApi.me()
+      set({ user, employee: user as unknown as Employee })
+    } catch {
+      // 忽略刷新失败
+    }
+  },
 }))
