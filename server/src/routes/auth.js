@@ -2,7 +2,7 @@ const express = require('express')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const { getDb } = require('../db')
-const { requireAuth } = require('../middleware/auth')
+const { requireAuth, requireAdmin } = require('../middleware/auth')
 
 const router = express.Router()
 
@@ -123,8 +123,8 @@ router.post('/change-password', requireAuth, (req, res) => {
   }
 })
 
-// POST /api/auth/update-profile — 修改当前登录用户的账号资料（用户名/姓名/手机/邮箱）
-router.post('/update-profile', requireAuth, (req, res) => {
+// POST /api/auth/update-profile — 修改账号资料（仅管理员，可改用户名/姓名/手机/邮箱）
+router.post('/update-profile', requireAuth, requireAdmin, (req, res) => {
   try {
     const { username, name, phone, email } = req.body || {}
     const db = getDb()

@@ -46,7 +46,6 @@ export const router = createBrowserRouter([
           { path: 'payslip', element: <PayslipPage /> },
           { path: 'profile', element: <ProfilePage /> },
           { path: 'change-password', element: <ChangePasswordPage /> },
-          { path: 'account', element: <AccountSettingsPage /> },
         ],
       },
     ],
