@@ -35,7 +35,7 @@ export default function EmployeeLayout() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Top bar */}
-      <header className="bg-white/80 backdrop-blur-[20px] backdrop-saturate-[180%] border border-border rounded-xl m-3 mb-0 flex items-center justify-between px-4 py-3">
+      <header className="bg-card/80 backdrop-blur-[20px] backdrop-saturate-[180%] border border-border rounded-xl m-3 mb-0 flex items-center justify-between px-4 py-3 shadow-sm">
         {/* Logo */}
         <div className="flex items-center gap-2">
           <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-bold">

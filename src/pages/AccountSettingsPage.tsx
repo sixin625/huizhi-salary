@@ -86,11 +86,11 @@ export default function AccountSettingsPage() {
 
   return (
     <div className="p-6">
-      <div className="mx-auto max-w-md border border-[var(--ink)] rounded-none bg-[#FCFAF6] p-10 anim-pop-in">
+      <div className="mx-auto max-w-md rounded-2xl border border-border bg-card p-9 shadow-lg anim-pop-in">
         {/* 标题 */}
         <div className="mb-8 text-center">
-          <div className="mb-4 inline-flex size-16 items-center justify-center rounded-none bg-[var(--ink)]">
-            <SettingsIcon className="size-8 text-white" />
+          <div className="mb-4 inline-flex size-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-[var(--deco)] text-[var(--primary-foreground)] shadow-lg">
+            <SettingsIcon className="size-8" />
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground">账号设置</h1>
           <p className="mt-1.5 text-sm text-muted-foreground">

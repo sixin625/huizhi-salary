@@ -67,7 +67,7 @@ function formatCompact(val: number): string {
 // 图表配色 & 样式
 // ============================================================
 
-const CHART_COLORS = ['#F4845F', '#3FA98C', '#2EC4B6', '#F6B26B', '#C9A0DC', '#F2C14E']
+const CHART_COLORS = ['#B89455', '#3FA98C', '#7E9CB8', '#C9A66B', '#A6814F', '#5E7080']
 
 const TOOLTIP_STYLE = {
   contentStyle: {
@@ -307,15 +307,15 @@ export default function DashboardPage() {
               <AreaChart data={trendData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
                 <defs>
                   <linearGradient id="salaryGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#F4845F" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#F4845F" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#B89455" stopOpacity={0.4} />
+                  <stop offset="95%" stopColor="#B89455" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(0 0% 90%)" />
                 <XAxis dataKey="month" tick={{ fill: 'hsl(0 0% 45%)', fontSize: 12 }} axisLine={{ stroke: 'hsl(0 0% 90%)' }} tickLine={false} />
                 <YAxis tick={{ fill: 'hsl(0 0% 45%)', fontSize: 12 }} axisLine={{ stroke: 'hsl(0 0% 90%)' }} tickLine={false} tickFormatter={(v) => formatCompact(Number(v))} />
                 <Tooltip {...TOOLTIP_STYLE} formatter={(value) => [formatCurrency(Number(value)), '实发总额']} />
-                <Area type="monotone" dataKey="total" stroke="#F4845F" strokeWidth={2} fill="url(#salaryGradient)" dot={{ fill: '#F4845F', r: 4 }} activeDot={{ r: 6 }} />
+                <Area type="monotone" dataKey="total" stroke="#B89455" strokeWidth={2} fill="url(#salaryGradient)" dot={{ fill: '#B89455', r: 4 }} activeDot={{ r: 6 }} />
               </AreaChart>
             </ResponsiveContainer>
           ) : (
@@ -337,7 +337,7 @@ export default function DashboardPage() {
                 <XAxis dataKey="name" tick={{ fill: 'hsl(0 0% 45%)', fontSize: 12 }} axisLine={{ stroke: 'hsl(0 0% 90%)' }} tickLine={false} />
                 <YAxis tick={{ fill: 'hsl(0 0% 45%)', fontSize: 12 }} axisLine={{ stroke: 'hsl(0 0% 90%)' }} tickLine={false} tickFormatter={(v) => formatCompact(Number(v))} />
                 <Tooltip {...TOOLTIP_STYLE} formatter={(value) => [formatCurrency(Number(value)), '实发总额']} cursor={{ fill: 'hsl(0 0% 95%)' }} />
-                <Bar dataKey="total" radius={[6, 6, 0, 0]} fill="rgba(244, 132, 95, 0.45)" stroke="#F4845F" strokeWidth={1} />
+                <Bar dataKey="total" radius={[6, 6, 0, 0]} fill="rgba(184, 148, 85, 0.45)" stroke="#B89455" strokeWidth={1} />
               </BarChart>
             </ResponsiveContainer>
           ) : (

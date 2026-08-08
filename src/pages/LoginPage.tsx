@@ -37,12 +37,10 @@ export default function LoginPage() {
   // Auth store 初始化中 — 显示加载画面
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#FFF7F0] to-[#FCE6DA]">
-        <div className="glass-card p-8">
-          <div className="flex items-center gap-3 text-muted-foreground">
-            <Loader2Icon className="size-5 animate-spin" />
-            <span>加载中...</span>
-          </div>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="flex items-center gap-3 rounded-2xl border border-border bg-card px-7 py-5 shadow-md">
+          <Loader2Icon className="size-5 animate-spin text-primary" />
+          <span className="text-muted-foreground">加载中...</span>
         </div>
       </div>
     )
@@ -63,15 +61,21 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden p-4 bg-[#FBF4EC]">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background p-4">
+      {/* 装饰性柔光 */}
+      <div className="pointer-events-none absolute -top-32 -left-24 size-96 rounded-full bg-primary/10 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-32 -right-24 size-96 rounded-full bg-[var(--deco)]/10 blur-3xl" />
+
       {/* 登录卡片 */}
-      <div className="relative z-10 w-full max-w-md border border-[var(--ink)] rounded-none bg-[#FCFAF6] shadow-none p-10 anim-pop-in">
+      <div className="relative z-10 w-full max-w-md rounded-2xl border border-border bg-card p-9 shadow-xl anim-pop-in">
         {/* Logo / 标题区域 */}
         <div className="mb-8 text-center">
-          <div className="mb-4 inline-flex size-16 items-center justify-center rounded-none bg-[var(--ink)]">
-            <LockIcon className="size-8 text-white" />
+          <div className="mb-5 inline-flex size-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-[var(--deco)] text-[var(--primary-foreground)] shadow-lg">
+            <LockIcon className="size-8" />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">喙语教育</h1>
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground">
+            喙语教育
+          </h1>
           <p className="mt-1.5 text-sm text-muted-foreground">薪资管理系统</p>
         </div>
 
@@ -87,7 +91,7 @@ export default function LoginPage() {
                 type="text"
                 autoComplete="username"
                 placeholder="请输入用户名"
-                className="h-10 pl-9 bg-white border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:shadow-[0_0_0_3px_var(--focus-ring)] focus-visible:ring-0"
+                className="h-10 pl-9 bg-secondary/40 border-border rounded-lg text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:shadow-[0_0_0_3px_var(--focus-ring)] focus-visible:ring-0"
                 {...register('username')}
               />
             </div>
@@ -106,7 +110,7 @@ export default function LoginPage() {
                 type="password"
                 autoComplete="current-password"
                 placeholder="••••••••"
-                className="h-10 pl-9 bg-white border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:shadow-[0_0_0_3px_var(--focus-ring)] focus-visible:ring-0"
+                className="h-10 pl-9 bg-secondary/40 border-border rounded-lg text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:shadow-[0_0_0_3px_var(--focus-ring)] focus-visible:ring-0"
                 {...register('password')}
               />
             </div>
@@ -134,7 +138,7 @@ export default function LoginPage() {
         </form>
 
         {/* 演示账号提示 */}
-        <div className="mt-6 rounded-none border border-[var(--ink-rule)] bg-transparent p-3 text-center anim-fade-in">
+        <div className="mt-6 rounded-xl border border-border bg-secondary/50 p-3 text-center anim-fade-in">
           <p className="text-xs text-primary">普通员工：tom / 123456</p>
           <p className="text-xs text-muted-foreground">管理员密码已单独设置，请用新密码登录</p>
         </div>
