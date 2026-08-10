@@ -131,6 +131,9 @@ export const salaryTemplateApi = {
 
 export const dashboardApi = {
   stats: () => apiFetchData<any>('/api/dashboard/stats'),
+  // 按月看板：不传 month 则由后端返回默认（最新有数据）月份
+  monthly: (month?: string) =>
+    apiFetchData<any>('/api/dashboard/monthly' + (month ? `?month=${month}` : '')),
 }
 
 // ─── Token helpers（供 auth store 使用）───
