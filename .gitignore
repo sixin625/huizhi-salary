@@ -29,8 +29,9 @@ dist-ssr
 # pnpm local content-addressable store (cache, never commit)
 .pnpm-store/
 
-# Local build output (vite build --outDir out)
+# Local build output (vite build --outDir out / prod-build)
 out/
+prod-build/
 
 # One-off deploy tarball
 salary-deploy.tar.gz
