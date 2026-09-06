@@ -57,7 +57,8 @@
   --font-mono: 'SFMono-Regular', 'Roboto Mono', 'Fira Code', ui-monospace, monospace;
   --font-display: 'Manrope', 'Noto Sans SC', 'PingFang SC', system-ui, sans-serif;
   --ink: #1D1D1F;
-  --ink-rule: rgba(0, 0, 0, 0.10);
+  /* T1：线的职责已交给面色（tile 底色块 + 列表交替底色），此变量置为透明 */
+  --ink-rule: transparent;
   --income: #1E7A5F;
   --income-soft: rgba(30, 122, 95, 0.12);
   --deduction: #B4551F;
@@ -66,6 +67,7 @@
   --focus-ring: rgba(180, 85, 31, 0.25);
   --glow-a: rgba(180, 85, 31, 0.06);
   --glow-b: rgba(0, 0, 0, 0.03);
+  --tile: #FAFAF8;
   --chart-1: #B4551F;
   --chart-2: #1E7A5F;
   --chart-3: #6B7A8F;
@@ -100,7 +102,8 @@
   --input: rgba(255, 255, 255, 0.12);
   --ring: #2FC5A8;
   --ink: #F5F5F7;
-  --ink-rule: rgba(255, 255, 255, 0.12);
+  /* T1：同上，线的职责交给面色 */
+  --ink-rule: transparent;
   --income: #2FC5A8;
   --income-soft: rgba(47, 197, 168, 0.16);
   --deduction: #FF7A5C;
@@ -109,6 +112,7 @@
   --focus-ring: rgba(47, 197, 168, 0.30);
   --glow-a: rgba(47, 197, 168, 0.10);
   --glow-b: rgba(47, 197, 168, 0.05);
+  --tile: #16161A;
   --chart-1: #2FC5A8;
   --chart-2: #5AD4BC;
   --chart-3: #7E8A99;
@@ -153,10 +157,11 @@ h1, h2, h3, h4 {
   font-weight: 700;
 }
 
+/* T1 · 淡底色块：用「面色」承担分组与边界，不再画线 */
 .glass-card {
-  background: transparent;
+  background: var(--tile);
   border: none;
-  border-radius: 0;
+  border-radius: 12px;
   box-shadow: none;
 }
 
@@ -350,6 +355,14 @@ thead th {
   color: var(--muted-foreground);
   font-weight: 600;
 }
+
+/* T1 · 列表用交替底色代替行线 */
+tbody tr:nth-child(even) {
+  background: var(--tile);
+}
+tbody tr:hover {
+  background: var(--muted);
+}
 @media (max-width: 640px) {
   .editorial-kpi > .glass-card { border-right: none; }
 }
@@ -358,29 +371,28 @@ thead th {
    杂志编辑风：下划线字段 + 文字动作链接 + 名册列表 + 合计区块
    ============================================================ */
 
-/* 下划线输入框 —— 透明无边框，仅底部墨线 */
+/* T1 · 输入框：淡底圆角块代替下划线 */
 .input-underline {
-  background: transparent !important;
-  border: none !important;
-  border-bottom: 1px solid var(--ink-rule) !important;
-  border-radius: 0 !important;
+  background: var(--tile) !important;
+  border: 1px solid transparent !important;
+  border-radius: 8px !important;
   box-shadow: none !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  height: 2rem !important;
+  padding-left: 0.75rem !important;
+  padding-right: 0.75rem !important;
+  height: 2.25rem !important;
 }
 .input-underline:focus,
 .input-underline:focus-visible {
-  border-bottom-color: var(--ink) !important;
-  box-shadow: none !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px var(--focus-ring) !important;
   outline: none !important;
 }
 .input-underline[aria-invalid='true'] {
-  border-bottom-color: var(--destructive) !important;
+  border-color: var(--destructive) !important;
 }
-/* 带前导图标的下划线输入框（搜索框等） */
+/* 带前导图标的输入框（搜索框等） */
 .input-underline.has-icon {
-  padding-left: 1.75rem !important;
+  padding-left: 2rem !important;
 }
 
 /* 下划线选择器 —— 与输入框对齐 */

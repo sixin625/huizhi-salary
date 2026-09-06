@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="zh-CN" data-page-node-id="eOjElBHyOdgRvdAMNDMtfc">
+<head data-page-node-id="TryC9ulQDDCPNVXQZwzGtT">
+<meta charset="UTF-8" data-page-node-id="Zj2vwFka6wqMQTVZj5Ipkj" />
+<meta name="viewport" content="width=device-width, initial-scale=1" data-page-node-id="J7ELD1qPnRo9Yw552dlfxo" />
+<title>用什么替代横线 · 三套语言</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" data-page-node-id="W7SRQUHvMq9xcVtjD7lrsX" />
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #FCFCFB; color: #1D1D1F;
+    font-family: 'Manrope', 'PingFang SC', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 52px 32px 96px; }
+
+  .page-kicker { font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: #A9A29A; font-weight: 700; }
+  .page-title { font-size: 33px; font-weight: 800; letter-spacing: -.035em; margin: 13px 0 12px; }
+  .page-sub { font-size: 15px; line-height: 1.75; color: #6E6862; max-width: 720px; }
+  .page-head { margin-bottom: 44px; }
+
+  .dir {
+    background: #fff; border: 1px solid #E8E5E0; border-radius: 14px;
+    padding: 26px 28px 30px; margin-bottom: 26px;
+  }
+  .dir-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+  .dir-id { font-family: 'Roboto Mono', monospace; font-size: 12px; font-weight: 700; color: #B4551F; letter-spacing: .1em; }
+  .dir-name { font-size: 21px; font-weight: 800; letter-spacing: -.02em; }
+  .dir-desc { font-size: 14px; line-height: 1.7; color: #6E6862; margin: 8px 0 22px; max-width: 800px; }
+
+  .scenes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .scene-label {
+    font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+    color: #A9A29A; margin-bottom: 12px;
+  }
+
+  /* 通用零件 */
+  .k-label { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #86868B; }
+  .k-val { font-family: 'Roboto Mono', monospace; font-size: 18px; font-weight: 600; letter-spacing: -.03em; margin-top: 6px; }
+  .k-foot { font-size: 11px; color: #86868B; margin-top: 4px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  td { padding: 9px 8px; }
+  .num { text-align: right; font-family: 'Roboto Mono', monospace; }
+  .fld { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #86868B; margin-bottom: 6px; }
+  .inp { height: 36px; display: flex; align-items: center; padding: 0 12px; font-size: 13px; color: #1D1D1F; }
+
+  /* ── T1 淡底色块 ── */
+  .t1-tiles { display: grid; gap: 8px; }
+  .t1-tile { background: #FAFAF8; border-radius: 10px; padding: 12px 14px; }
+  .t1-row:nth-child(odd) { background: #FAFAF8; }
+  .t1-inp { background: #F5F4F0; border-radius: 8px; }
+
+  /* ── T2 卡片 ── */
+  .t2-tiles { display: grid; gap: 8px; }
+  .t2-tile {
+    background: #fff; border: 1px solid #ECEAE5; border-radius: 10px;
+    padding: 12px 14px; box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  }
+  .t2-tbl { background: #fff; border: 1px solid #ECEAE5; border-radius: 10px; overflow: hidden; }
+  .t2-tbl td { border-bottom: none; }
+  .t2-tbl tr + tr td { box-shadow: inset 0 1px 0 #F2F0EC; }
+  .t2-inp { background: #fff; border: 1px solid #E4E1DB; border-radius: 8px; }
+
+  /* ── T3 左侧竖色条 ── */
+  .t3-block { border-left: 2px solid #B4551F; padding-left: 14px; margin-bottom: 16px; }
+  .t3-block.mute { border-left-color: #E4E1DB; }
+  .t3-row td:first-child { box-shadow: inset 2px 0 0 #E4E1DB; }
+  .t3-row.on td:first-child { box-shadow: inset 2px 0 0 #B4551F; }
+  .t3-inp { background: transparent; border-left: 2px solid #E4E1DB; border-radius: 0; padding-left: 12px; }
+  .t3-inp.on { border-left-color: #B4551F; }
+
+  .foot { margin-top: 50px; padding-top: 26px; border-top: 1px solid #E8E5E0; font-size: 14px; color: #6E6862; line-height: 1.85; }
+
+  @media (max-width: 900px) { .scenes { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body data-page-node-id="q1bVIOb0Rs8wlYLmsVhkFY">
+<div class="wrap" data-page-node-id="XMCsYN2vNXl04XU7axqZD2">
+  <div class="page-head" data-page-node-id="TW51MDN3X1ln28cSnJUe0Q">
+    <div class="page-kicker" data-page-node-id="CApk73f210OC1QxJnjnJTB">全站统一 · 替代横线的语言</div>
+    <h1 class="page-title" data-page-node-id="wjXxGLeK0vNZOVQ10aWKDK">线不该被删掉，该被替代</h1>
+    <p class="page-sub" data-page-node-id="rUAnuSoTE9kMOpOalzjCEJ">
+      线承担的是「分组、边界、节奏」三件事。直接删掉，页面就散了——所以要用别的视觉手段把这三件事接过来。
+      下面三套语言，每一套都会<b data-page-node-id="Hm6Hkv8xiFQDptVy1v177S">全站统一应用</b>：数据看板、员工管理、薪资录入、薪资记录、工资条、账号设置，一次改完。
+    </p>
+  </div>
+
+  <!-- T1 -->
+  <section class="dir" data-page-node-id="Qb0tMFymk6MiSOAyFGlaGJ">
+    <div class="dir-head" data-page-node-id="LKMWcKPXbFIGQfSM29Vomu"><span class="dir-id" data-page-node-id="uNWoBEEo4rSIQ7odCQDRE6">T1</span><span class="dir-name" data-page-node-id="BWNcnpQXsV8uH0Xif2jOXU">淡底色块</span></div>
+    <p class="dir-desc" data-page-node-id="2XeXRqu2UMSVsAWsyAbNjL">
+      用<b data-page-node-id="LpCy2HBTHnjh0bPN5yC4UJ">面色</b>代替线：每个信息单元一个极淡的圆角底色块（#FAFAF8），边界靠明度差自然形成。
+      最干净、最现代，也最接近 Apple 的做法。列表用交替底色，输入框用淡底圆角框。
+    </p>
+    <div class="scenes" data-page-node-id="qWzXHPHmsXzJ5HLUawPPR0">
+      <div data-page-node-id="BhNLBX3FRzMqvSLCsoLjSy">
+        <div class="scene-label" data-page-node-id="N77ZfDy7PBm5bkV5tnzDyd">指标 / 区块</div>
+        <div class="t1-tiles" data-page-node-id="ixYXnZU9s4uwbhC2g7sf45">
+          <div class="t1-tile" data-page-node-id="HEATvT6cRfGdadruH0epwx">
+            <div class="k-label" data-page-node-id="66gcdr1pP3wbvJVR7tv2Er">应发总额</div>
+            <div class="k-val" data-page-node-id="AdBqCSQzLB0G3cFvqHaFXS">¥986,204</div>
+            <div class="k-foot" data-page-node-id="9jwodpTIRFB0Mul5roiE0X">环比 +11.2%</div>
+          </div>
+          <div class="t1-tile" data-page-node-id="8GdXaCrA0PC0lCmrENkbmx">
+            <div class="k-label" data-page-node-id="qJGc3ARkMFFSpn0yxzIm45">扣款总额</div>
+            <div class="k-val" data-page-node-id="1M6RCKFxt8yLp4UiBnxeB6">¥133,773</div>
+            <div class="k-foot" data-page-node-id="O8E8n6JAdcoswDIhTzjYNS">占应发 13.6%</div>
+          </div>
+        </div>
+      </div>
+      <div data-page-node-id="bxksF9rZbCSE0HpiimmLg5">
+        <div class="scene-label" data-page-node-id="BokGHz49ALnormARdxL7zH">列表（交替底色）</div>
+        <table data-page-node-id="uTZ5DvbE3kK79Xr9LgYWh6">
+          <tr class="t1-row" data-page-node-id="f6DjMKzHheSs97XA1U769M"><td data-page-node-id="LjAJypDV7k0PnYZOZJeCnn">张伟</td><td class="num" data-page-node-id="mj7FuGZZ72zcXtqXcgpCEr">11,560</td></tr>
+          <tr class="t1-row" data-page-node-id="gJQo7PheEshwldCrbdX9VM"><td data-page-node-id="rdJJEdThEIT6qEgHX9ZFGp">李娜</td><td class="num" data-page-node-id="UihfCZaJYveDTu6pjs6Rpy">8,620</td></tr>
+          <tr class="t1-row" data-page-node-id="UZkQzZHHrMWx2IqhQrDxBC"><td data-page-node-id="TdHKVewKFylYJ2O06VGJtF">王强</td><td class="num" data-page-node-id="lS0PG0wGW7vdCqzvHMBmTN">13,320</td></tr>
+          <tr class="t1-row" data-page-node-id="NGx4zm2Kj2JhBEeJUgP6lW"><td data-page-node-id="FGP0TQJy1FFFAnx2FKTGxy">赵敏</td><td class="num" data-page-node-id="3wHxYFIqFlaiRLGzOlN14y">7,640</td></tr>
+        </table>
+      </div>
+      <div data-page-node-id="k5d8vgf5wTe4sJMR0muAaF">
+        <div class="scene-label" data-page-node-id="jsCKSRjXwhAcJo8ePY5NDs">输入 / 表单</div>
+        <div class="fld" data-page-node-id="VPzqSzTUxkRJ5Eorg3jyeQ">用户名</div>
+        <div class="inp t1-inp" data-page-node-id="gTnURN7u2z8689GQmDYX0C">admin</div>
+        <div style="height:12px" data-page-node-id="q5IFcPWZhonJdGbic5dWdE"></div>
+        <div class="fld" data-page-node-id="pb28m7tG1Y00F3pfphdb3k">密码</div>
+        <div class="inp t1-inp" data-page-node-id="a82Q83LL4pgkzNc5RdaK5F">••••••••</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- T2 -->
+  <section class="dir" data-page-node-id="MznSWdGVuBfKWjyvC3ZbS4">
+    <div class="dir-head" data-page-node-id="TxLtnAzpl18NWAQT3Ek3K7"><span class="dir-id" data-page-node-id="9uyTeK5xgM5bibNUTSjwuR">T2</span><span class="dir-name" data-page-node-id="RWir0A9cF4ifcVTD2DI8Zj">卡片 + 极淡描边</span></div>
+    <p class="dir-desc" data-page-node-id="WJbJDDbCBj43DHLfFsWLxE">
+      用<b data-page-node-id="gADzrP8n7ciWKKpPqJhZYo">容器</b>代替线：白卡配 1px 极淡描边和一点阴影，边界来自卡片本身而不是分隔线。
+      信息单元更"实"，适合表格多、字段多的页面（员工管理、薪资录入）。
+    </p>
+    <div class="scenes" data-page-node-id="dfqQ92IPt5VjK8dkgJ5GIl">
+      <div data-page-node-id="khky5Koh1LPyydnnaQg2ac">
+        <div class="scene-label" data-page-node-id="PxeFpNCQ0fcjgRgUGoKBF5">指标 / 区块</div>
+        <div class="t2-tiles" data-page-node-id="JnRVnyCP8WacJ4GVBfcqmg">
+          <div class="t2-tile" data-page-node-id="LbKgTZB0wqksj3jInhZIDD">
+            <div class="k-label" data-page-node-id="iETTeW81xEFV2e58pw6Emn">应发总额</div>
+            <div class="k-val" data-page-node-id="ecZZtTsaf5YZEOWIopManr">¥986,204</div>
+            <div class="k-foot" data-page-node-id="VoUbySE34823W7HOV4Qiy3">环比 +11.2%</div>
+          </div>
+          <div class="t2-tile" data-page-node-id="rnkjrjjFmk1cCqWGWzzsbD">
+            <div class="k-label" data-page-node-id="s1CZpupnteKYOABeHmd5Qw">扣款总额</div>
+            <div class="k-val" data-page-node-id="huNMcooF7Bs6yv0TrbXCvr">¥133,773</div>
+            <div class="k-foot" data-page-node-id="0PUuLpIvEItDFLG1EFHqvt">占应发 13.6%</div>
+          </div>
+        </div>
+      </div>
+      <div data-page-node-id="wGQmqixPus8ikMW4Wo1v47">
+        <div class="scene-label" data-page-node-id="WYLz7Cpk1jwyOsm6x1a4YE">列表（卡片内）</div>
+        <div class="t2-tbl" data-page-node-id="oPVETGdnCaq1d5eUIfupdY">
+          <table data-page-node-id="aRicNMwMtDx3w597XIjcfB">
+            <tr data-page-node-id="YlEKclemb6cDScHxAK3h0f"><td data-page-node-id="7GhX8Wdz5VuKVP4zAiCmf3">张伟</td><td class="num" data-page-node-id="DKzxlbslyyMyT4w4MBvKZj">11,560</td></tr>
+            <tr data-page-node-id="OvKZgsdu82F8WAm5jqWqwG"><td data-page-node-id="DXmqGEQB2BFzEmZtsso520">李娜</td><td class="num" data-page-node-id="qnMw5hQgZHHnGGAiijRCZn">8,620</td></tr>
+            <tr data-page-node-id="vLQ5AddKee2PYYZWuHxpcC"><td data-page-node-id="nRr0XUDOIBcoh5gSA4jvzz">王强</td><td class="num" data-page-node-id="Oxu1ger1LCVK8dNCfP6ynE">13,320</td></tr>
+            <tr data-page-node-id="Xd5cLos02IQEiT0LK9AaSq"><td data-page-node-id="D112YjV2hTvCdsEUA3p5NJ">赵敏</td><td class="num" data-page-node-id="uMYCaSt2tBqzw0dDNJnB90">7,640</td></tr>
+          </table>
+        </div>
+      </div>
+      <div data-page-node-id="GBVznnWV9mFRaWMUj2oLDr">
+        <div class="scene-label" data-page-node-id="1BMYaKUxNUnIYFlYBD2OgQ">输入 / 表单</div>
+        <div class="fld" data-page-node-id="gOcuaQFOwnU8JECgiqLEVw">用户名</div>
+        <div class="inp t2-inp" data-page-node-id="T368pFLChUhn23TyKeR5Jz">admin</div>
+        <div style="height:12px" data-page-node-id="dcx0MA6KA4jRnobhzuf4Bq"></div>
+        <div class="fld" data-page-node-id="Z4As0207MWoXZY0h2bwMTt">密码</div>
+        <div class="inp t2-inp" data-page-node-id="wFNQzhZYVCoJ5NrTYn3eOg">••••••••</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- T3 -->
+  <section class="dir" data-page-node-id="EVGBlA6Aa6mOyhcit4WhkF">
+    <div class="dir-head" data-page-node-id="VY9QP6cc2v2TmD0glm1ddc"><span class="dir-id" data-page-node-id="Irnoeq6nVyCXJJ09QpFR9M">T3</span><span class="dir-name" data-page-node-id="jjsqlEXPRqc6YUxzeFzZMu">左侧竖色条</span></div>
+    <p class="dir-desc" data-page-node-id="FEqRDZBegG1M00aew2rmBm">
+      用<b data-page-node-id="3OT0yX8lP93v0K6VltVap9">竖线</b>代替横线：完全不要容器，靠左侧一道 2px 竖条标记单元的开始（当前/选中项用赤陶色）。
+      最有编辑感和秩序感，也最不"后台"——竖条只出现在需要强调的地方，其余留白。
+    </p>
+    <div class="scenes" data-page-node-id="Aw6YyEuvIGwAMUhglZSkQa">
+      <div data-page-node-id="etdbQ6rDgJa6lt3Cs0HaDS">
+        <div class="scene-label" data-page-node-id="MX9iTHw2rzbWRaDmFTsAoh">指标 / 区块</div>
+        <div class="t3-block" data-page-node-id="xFfZ9FIF2321XM8YkstBU6">
+          <div class="k-label" data-page-node-id="NjWig4LB7igW6XhRch40yf">应发总额</div>
+          <div class="k-val" data-page-node-id="yFqEdpfeja86RAv5mPEmF7">¥986,204</div>
+          <div class="k-foot" data-page-node-id="BJrMw39t05k6IPw9DtafSu">环比 +11.2%</div>
+        </div>
+        <div class="t3-block mute" data-page-node-id="brbVgqt7oHk05QXdHr8CDv">
+          <div class="k-label" data-page-node-id="GDsVRijCb6FjAVArqziWSH">扣款总额</div>
+          <div class="k-val" data-page-node-id="z0cIq5bOtBGt4h1SxIfBGu">¥133,773</div>
+          <div class="k-foot" data-page-node-id="qfAJAuB0Gy1m6hkvzmtOXt">占应发 13.6%</div>
+        </div>
+      </div>
+      <div data-page-node-id="FvoXCndqrGdXt4BENFj1Ih">
+        <div class="scene-label" data-page-node-id="xWrFwfIqvsUlK0CJrBXrBF">列表（行首竖条）</div>
+        <table data-page-node-id="yHjwGQJg6qDwbWEskP8npM">
+          <tr class="t3-row on" data-page-node-id="FGqK0Qk7nnviwzrq5s6i2P"><td data-page-node-id="17vQBPGz0byMOUb3B7VSW2">张伟</td><td class="num" data-page-node-id="ugXBt681TVmEx2FPx4Ol8h">11,560</td></tr>
+          <tr class="t3-row" data-page-node-id="MuN7UcXmsDZVhCjo8eU7tv"><td data-page-node-id="8ECVuXpQvCWNnEOqGGBJnu">李娜</td><td class="num" data-page-node-id="gup0MHhDVv91Uou1o7v1s7">8,620</td></tr>
+          <tr class="t3-row" data-page-node-id="AsZVlglp6CWnfD6R0eggwZ"><td data-page-node-id="ZG3NjUnOrFHIQsUTTfFMRa">王强</td><td class="num" data-page-node-id="d5ar07Z8eTboZyIHmGixsQ">13,320</td></tr>
+          <tr class="t3-row" data-page-node-id="z9RQHJtBtp1gANZmrrNgrX"><td data-page-node-id="ezeHAEuXSTQyeFwU8HBWHA">赵敏</td><td class="num" data-page-node-id="KdaHOG6oQQrSNu1YdSnCln">7,640</td></tr>
+        </table>
+      </div>
+      <div data-page-node-id="uCjxB8il9TGz5L0dU9Udvn">
+        <div class="scene-label" data-page-node-id="fuYPSrFZ7oE36jIPP8MV8x">输入 / 表单</div>
+        <div class="fld" data-page-node-id="WiVpDrCyyThcbFx9xa2Dnc">用户名</div>
+        <div class="inp t3-inp on" data-page-node-id="ctX7eVgZmgfwzrnf1MbMTa">admin</div>
+        <div style="height:12px" data-page-node-id="TNI0HJsdB6qh2IV3N8xWvw"></div>
+        <div class="fld" data-page-node-id="Hc7lOQ7TOq9sWRw3lvgVNh">密码</div>
+        <div class="inp t3-inp" data-page-node-id="naqqKvu38GTQVYFtMeGAle">••••••••</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot" data-page-node-id="Ah2gJiYdeS4ceDy94GVWCx">
+    <b data-page-node-id="tgBVOM27tfy6N3dLEM8EBB">我的推荐：T1 淡底色块</b>——它最干净，也最能承载你现在这套「白纸 + 超大数字」的排印语言；
+    字段密集的页面（薪资录入）再局部用 T2，避免画面太散。
+    <br data-page-node-id="v7SUrTFVBpsvstG1fIAFRY"><br data-page-node-id="rsJikQeAqiHwV1hwqmZSwI">
+    选一个（或说「T1 为主，薪资录入用 T2」这类组合），我就按它<b data-page-node-id="kFZBCEbEE1lZyUCuhXfaav">全站统一改</b>：数据看板、员工管理、薪资录入、薪资记录、员工工资条、账号设置、侧边栏与顶栏，一次改完重新部署。
+  </div>
+</div>
+</body>
+</html>

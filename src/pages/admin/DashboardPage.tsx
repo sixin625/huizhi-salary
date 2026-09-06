@@ -310,8 +310,8 @@ export default function DashboardPage() {
           </div>
 
           {/* v2 · 次要指标：hairline 横排，不再用卡片 */}
-          <div className="mt-10 grid grid-cols-1 gap-9 sm:grid-cols-3 anim-stagger">
-            <div>
+          <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-3 anim-stagger">
+            <div className="rounded-xl bg-[var(--tile)] p-4">
               <div className="num-label">应发总额</div>
               <div className="mt-1.5 font-mono text-xl font-semibold text-foreground">
                 <CountUp value={summary!.grossTotal} format={formatCurrency} />
@@ -320,7 +320,7 @@ export default function DashboardPage() {
                 <ChangeBadge pct={comparison!.grossChangePct} />
               </div>
             </div>
-            <div>
+            <div className="rounded-xl bg-[var(--tile)] p-4">
               <div className="num-label">扣款总额</div>
               <div className="mt-1.5 font-mono text-xl font-semibold text-foreground">
                 <CountUp value={summary!.deductionTotal} format={formatCurrency} />
@@ -333,7 +333,7 @@ export default function DashboardPage() {
                 %
               </div>
             </div>
-            <div>
+            <div className="rounded-xl bg-[var(--tile)] p-4">
               <div className="num-label">发薪人数</div>
               <div className="mt-1.5 font-mono text-xl font-semibold text-foreground">
                 <CountUp value={summary!.paidCount} decimals={0} />

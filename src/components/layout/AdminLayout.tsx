@@ -103,7 +103,7 @@ export default function AdminLayout() {
     <div className="min-h-screen flex">
       {/* Desktop sidebar */}
       <aside className="hidden md:flex w-56 shrink-0">
-        <div className="bg-card border-r border-[var(--ink-rule)] m-0 h-screen overflow-y-auto anim-slide-left">
+        <div className="m-0 h-screen overflow-y-auto anim-slide-left bg-[var(--tile)]">
           <SidebarContent />
         </div>
       </aside>
