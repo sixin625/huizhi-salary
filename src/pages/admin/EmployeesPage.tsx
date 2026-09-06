@@ -280,7 +280,7 @@ export default function EmployeesPage() {
                   <span className="text-lg font-bold text-[var(--ink)]">
                     {emp.name}
                   </span>
-                  {emp.is_admin && <span className="roster-admin-pill">管理员</span>}
+                  {emp.is_admin ? <span className="roster-admin-pill">管理员</span> : null}
                   {emp.status === 'active' ? (
                     <span className="roster-status-pill is-active">在职</span>
                   ) : (
