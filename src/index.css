@@ -395,22 +395,21 @@ tbody tr:hover {
   padding-left: 2rem !important;
 }
 
-/* 下划线选择器 —— 与输入框对齐 */
+/* T1 · 选择器：淡底圆角块，与输入框统一 */
 .select-underline {
-  background: transparent !important;
-  border: none !important;
-  border-bottom: 1px solid var(--ink-rule) !important;
-  border-radius: 0 !important;
+  background: var(--tile) !important;
+  border: 1px solid transparent !important;
+  border-radius: 8px !important;
   box-shadow: none !important;
-  height: 2rem !important;
-  padding-left: 0 !important;
-  padding-right: 1.75rem !important;
+  padding-left: 0.75rem !important;
+  padding-right: 2rem !important;
+  height: 2.25rem !important;
 }
 .select-underline:focus,
 .select-underline:focus-visible,
 .select-underline[data-state='open'] {
-  border-bottom-color: var(--ink) !important;
-  box-shadow: none !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px var(--focus-ring) !important;
   outline: none !important;
 }
 
@@ -438,26 +437,67 @@ tbody tr:hover {
   height: 14px;
 }
 
-/* 编辑风：名册分隔行（含首行 2px 顶线） */
+/* T1 · 行卡名册：每行一块淡底色圆角卡片，行间空隙分隔（不再依赖 hairline） */
 .roster-row {
-  border-top: 1px solid var(--ink-rule);
+  background: var(--tile);
+  border: none;
+  border-radius: 12px;
+  padding: 16px 20px !important;
+  margin-bottom: 10px;
   transition: background-color 0.18s ease;
 }
-.roster-row:first-child {
-  border-top: 2px solid var(--ink);
-}
-.roster-row:last-child {
-  border-bottom: 1px solid var(--ink-rule);
-}
-.roster-row:hover {
-  background-color: rgba(184, 148, 85, 0.10);
-}
+.roster-row:last-child { margin-bottom: 0; }
+.roster-row:hover { background: var(--muted); }
 .roster-index {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 14px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 13px;
   color: var(--muted-foreground);
   font-variant-numeric: tabular-nums;
+}
+
+/* T1 · 管理员小药丸标签（淡底填充，不画描边） */
+.roster-admin-pill {
+  display: inline-flex;
+  align-items: center;
+  height: 18px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--deco);
+  color: var(--primary-foreground);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* T1 · 状态药丸（淡色软底 + 同色文字，不画描边） */
+.roster-status-pill {
+  display: inline-flex;
+  align-items: center;
+  height: 18px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  line-height: 1;
+}
+.roster-status-pill.is-active {
+  background: var(--income-soft);
+  color: var(--income);
+}
+.roster-status-pill.is-inactive {
+  background: var(--muted);
+  color: var(--muted-foreground);
+}
+
+/* T1 · 元信息行间分隔点（用可见但柔化的颜色，不再 transparent） */
+.row-sep {
+  color: color-mix(in oklab, var(--muted-foreground) 40%, transparent);
+  margin: 0 6px;
+  user-select: none;
 }
 
 /* 编辑风：薪资项表头小标签 */

@@ -192,11 +192,11 @@ export default function EmployeesPage() {
         </Button>
       </div>
 
-      {/* 筛选栏（编辑风：上下细线 + 下划线字段） */}
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-3 border-y border-[var(--ink-rule)] py-3 anim-fade-up">
+      {/* 筛选栏（T1：无横线，淡底块字段，统一节奏）*/}
+      <div className="flex flex-wrap items-center gap-3 anim-fade-up">
         {/* 搜索框 */}
-        <div className="relative min-w-[200px] flex-1">
-          <SearchIcon className="absolute left-0 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+        <div className="relative min-w-[240px] flex-1">
+          <SearchIcon className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             type="text"
             placeholder="搜索姓名或手机号..."
@@ -265,7 +265,7 @@ export default function EmployeesPage() {
             <div
               key={emp.id}
               className={cn(
-                'roster-row group flex flex-wrap items-center gap-x-5 gap-y-3 px-1 py-4',
+                'roster-row group flex flex-wrap items-center gap-x-5 gap-y-3',
                 emp.status === 'inactive' && 'opacity-60',
               )}
             >
@@ -277,42 +277,33 @@ export default function EmployeesPage() {
               {/* 姓名 + 元信息 */}
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
-                  <span className="font-display text-lg font-bold text-[var(--ink)]">
+                  <span className="text-lg font-bold text-[var(--ink)]">
                     {emp.name}
                   </span>
-                  {emp.is_admin && (
-                    <span className="rounded-none border border-[var(--ink-rule)] px-1.5 py-0.5 text-[10px] uppercase tracking-wider text-muted-foreground">
-                      管理员
-                    </span>
+                  {emp.is_admin && <span className="roster-admin-pill">管理员</span>}
+                  {emp.status === 'active' ? (
+                    <span className="roster-status-pill is-active">在职</span>
+                  ) : (
+                    <span className="roster-status-pill is-inactive">停用</span>
                   )}
                 </div>
-                <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-muted-foreground">
+                <div className="mt-1 flex flex-wrap items-center text-xs text-muted-foreground">
                   <span>{emp.phone || '无手机'}</span>
-                  <span className="text-[var(--ink-rule)]">·</span>
+                  <span className="row-sep">·</span>
                   <span>{emp.email ?? '无邮箱'}</span>
-                  <span className="text-[var(--ink-rule)]">·</span>
+                  <span className="row-sep">·</span>
                   <span>{emp.campus_name ?? '—'}</span>
-                  <span className="text-[var(--ink-rule)]">·</span>
+                  <span className="row-sep">·</span>
                   <span>{emp.department_name ?? '—'}</span>
-                  <span className="text-[var(--ink-rule)]">·</span>
+                  <span className="row-sep">·</span>
                   <span>入职 {formatDate(emp.hire_date)}</span>
                 </div>
               </div>
 
-              {/* 基本工资 + 状态 */}
+              {/* 基本工资 */}
               <div className="shrink-0 text-right">
-                <div className="font-display text-lg font-bold text-[var(--ink)] tabular-nums">
+                <div className="text-lg font-bold text-[var(--ink)] tabular-nums">
                   {formatSalary(emp.base_salary)}
-                </div>
-                <div
-                  className={cn(
-                    'mt-0.5 text-xs',
-                    emp.status === 'active'
-                      ? 'text-[var(--income)]'
-                      : 'text-muted-foreground',
-                  )}
-                >
-                  {emp.status === 'active' ? '在职' : '停用'}
                 </div>
               </div>
 
