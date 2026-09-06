@@ -32,9 +32,22 @@ app.get('/api/health', (req, res) => {
 const isProd = process.env.NODE_ENV === 'production'
 if (isProd) {
   const distDir = path.join(__dirname, '../../dist')
-  app.use(express.static(distDir))
+  // HTML 不缓存：前端每次构建文件名带 hash，必须让浏览器始终拿到最新的 index.html；
+  // 带 hash 的静态资源则可长期缓存。
+  app.use(
+    express.static(distDir, {
+      setHeaders(res, filePath) {
+        if (filePath.endsWith('.html')) {
+          res.set('Cache-Control', 'no-store, must-revalidate')
+        } else {
+          res.set('Cache-Control', 'public, max-age=31536000, immutable')
+        }
+      },
+    })
+  )
   // SPA 回退：非 /api 路径一律返回 index.html
   app.get(/^(?!\/api).*/, (req, res) => {
+    res.set('Cache-Control', 'no-store, must-revalidate')
     res.sendFile(path.join(distDir, 'index.html'))
   })
 }

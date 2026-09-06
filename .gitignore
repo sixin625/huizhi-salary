@@ -46,3 +46,4 @@ styles-preview.html
 layout-preview.html
 verify-templates.js
 ui-schemes-preview.canvas.tsx
+dist-clean/
