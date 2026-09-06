@@ -156,17 +156,16 @@ h1, h2, h3, h4 {
 .glass-card {
   background: transparent;
   border: none;
-  border-top: 1px solid var(--ink);
   border-radius: 0;
   box-shadow: none;
 }
 
 .glass-card-hover {
-  transition: border-color 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .glass-card-hover:hover {
-  border-top-color: var(--primary);
+  background: var(--muted);
 }
 
 /* 登录页装饰性浮动动画 */
@@ -254,18 +253,16 @@ h1, h2, h3, h4 {
   animation: nav-bar-in 0.3s ease both;
 }
 
-/* 区块标题：编辑风化——小号大写标签 + 底部细分隔线（移除圆点） */
+/* 区块标题：仅靠字号/字重/颜色区分，不再画分隔线 */
 .section-title {
   display: block;
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--muted-foreground);
-  border-bottom: 1px solid var(--ink-rule);
-  padding-bottom: 10px;
-  margin-bottom: 14px;
+  margin-bottom: 18px;
 }
 .section-title::before {
   content: none;
@@ -278,9 +275,7 @@ h1, h2, h3, h4 {
    杂志编辑风：KPI 行（大号衬线数字 + 竖线分隔 + 上下规则线）
    ============================================================ */
 .editorial-kpi {
-  border-top: 1px solid var(--ink);
-  border-bottom: 1px solid var(--ink-rule);
-  gap: 0 !important;
+  gap: 30px !important;
 }
 .editorial-kpi > .glass-card {
   border-top: none;
@@ -317,38 +312,37 @@ h1, h2, h3, h4 {
   color: var(--muted-foreground);
 }
 
-/* v2 · 签名元素：横向时间轴刻度月份选择器 */
-.timeline { display: flex; align-items: flex-end; }
-.tick {
-  flex: 1;
-  text-align: center;
-  position: relative;
-  padding-bottom: 18px;
-  cursor: pointer;
+/* v2 · 月份分段控件：替掉时间轴刻度，全靠底色与字重，不画任何线 */
+.seg {
+  display: inline-flex;
+  background: var(--muted);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 2px;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.seg-item {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 7px;
+  color: var(--muted-foreground);
   background: transparent;
   border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.18s ease, color 0.18s ease;
 }
-.tick::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 0;
-  width: 1px;
-  height: 8px;
-  background: var(--ink-rule);
-  transition: height 0.18s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.18s ease;
+.seg-item:hover { color: var(--foreground); }
+.seg-item.on {
+  background: var(--card);
+  color: var(--foreground);
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
 }
-.tick:hover::after { height: 14px; background: var(--muted-foreground); }
-.tick.active::after { height: 22px; width: 2px; background: var(--primary); }
-.tick-label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--muted-foreground);
-  letter-spacing: 0.02em;
-}
-.tick.active .tick-label { color: var(--primary); font-weight: 700; }
-.timeline-rule { height: 1px; background: var(--ink-rule); }
 thead th {
   text-transform: uppercase;
   font-size: 11px;
@@ -357,11 +351,7 @@ thead th {
   font-weight: 600;
 }
 @media (max-width: 640px) {
-  .editorial-kpi > .glass-card {
-    border-right: none;
-    border-bottom: 1px solid var(--ink-rule);
-  }
-  .editorial-kpi > .glass-card:last-child { border-bottom: none; }
+  .editorial-kpi > .glass-card { border-right: none; }
 }
 
 /* ============================================================

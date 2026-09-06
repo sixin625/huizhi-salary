@@ -246,7 +246,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="space-y-4 p-6">
+    <div className="space-y-10 p-6">
       {/* 标题 */}
       <div className="anim-fade-up">
         <h1 className="text-2xl font-bold text-foreground page-title">数据看板</h1>
@@ -255,21 +255,20 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      {/* v2 · 签名元素：横向时间轴刻度月份选择器 */}
-      <div className="mt-7 anim-fade-up">
-        <div className="timeline">
+      {/* v2 · 月份分段控件：不画任何线 */}
+      <div className="mt-8 anim-fade-up">
+        <div className="seg">
           {[...availableMonths].reverse().map((m) => (
             <button
               key={m}
               type="button"
               onClick={() => handleMonthChange(m)}
-              className={cn('tick', m === selectedMonth && 'active')}
+              className={cn('seg-item', m === selectedMonth && 'on')}
             >
-              <span className="tick-label">{formatMonthLabel(m)}</span>
+              {formatMonthLabel(m)}
             </button>
           ))}
         </div>
-        <div className="timeline-rule" />
       </div>
 
       {!hasData ? (
@@ -311,8 +310,8 @@ export default function DashboardPage() {
           </div>
 
           {/* v2 · 次要指标：hairline 横排，不再用卡片 */}
-          <div className="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-3 anim-stagger">
-            <div className="border-t border-[var(--ink-rule)] pt-4">
+          <div className="mt-10 grid grid-cols-1 gap-9 sm:grid-cols-3 anim-stagger">
+            <div>
               <div className="num-label">应发总额</div>
               <div className="mt-1.5 font-mono text-xl font-semibold text-foreground">
                 <CountUp value={summary!.grossTotal} format={formatCurrency} />
@@ -321,7 +320,7 @@ export default function DashboardPage() {
                 <ChangeBadge pct={comparison!.grossChangePct} />
               </div>
             </div>
-            <div className="border-t border-[var(--ink-rule)] pt-4">
+            <div>
               <div className="num-label">扣款总额</div>
               <div className="mt-1.5 font-mono text-xl font-semibold text-foreground">
                 <CountUp value={summary!.deductionTotal} format={formatCurrency} />
@@ -334,7 +333,7 @@ export default function DashboardPage() {
                 %
               </div>
             </div>
-            <div className="border-t border-[var(--ink-rule)] pt-4">
+            <div>
               <div className="num-label">发薪人数</div>
               <div className="mt-1.5 font-mono text-xl font-semibold text-foreground">
                 <CountUp value={summary!.paidCount} decimals={0} />
@@ -348,7 +347,7 @@ export default function DashboardPage() {
           </div>
 
           {/* 图表区 */}
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 anim-stagger">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 anim-stagger">
             {/* 趋势 */}
             <div className="glass-card p-4 lg:col-span-2">
               <h3 className="mb-4 text-sm font-medium text-foreground section-title">
@@ -422,7 +421,7 @@ export default function DashboardPage() {
 
           {/* 明细表 */}
           <div className="glass-card overflow-hidden">
-            <div className="flex items-center justify-between border-b border-border/50 p-4">
+            <div className="flex items-center justify-between p-4">
               <h3 className="text-sm font-medium text-foreground section-title">
                 薪资明细（{data ? formatYearLabel(data.month) : ''}）
               </h3>
@@ -434,7 +433,7 @@ export default function DashboardPage() {
             {detail.length > 0 ? (
               <Table>
                 <TableHeader>
-                  <TableRow className="border-border/50">
+                  <TableRow className="border-transparent">
                     <TableHead className="min-w-[80px]">员工</TableHead>
                     <TableHead>校区</TableHead>
                     <TableHead>部门</TableHead>
@@ -446,7 +445,7 @@ export default function DashboardPage() {
                 </TableHeader>
                 <TableBody className="anim-stagger">
                   {detail.map((r) => (
-                    <TableRow key={r.id} className="cursor-pointer border-border/30 hover:bg-muted/50" onClick={() => navigate('/admin/salary/records')}>
+                    <TableRow key={r.id} className="cursor-pointer border-transparent hover:bg-muted/50" onClick={() => navigate('/admin/salary/records')}>
                       <TableCell className="font-medium">{r.employee_name ?? '-'}</TableCell>
                       <TableCell className="text-muted-foreground">{r.campus_name ?? '-'}</TableCell>
                       <TableCell className="text-muted-foreground">{r.department_name ?? '-'}</TableCell>

@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>方案 A · 竖线分隔的替代做法</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #FCFCFB; color: #1D1D1F;
+    font-family: 'Manrope', 'PingFang SC', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 54px 32px 100px; }
+
+  .page-kicker { font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: #A9A29A; font-weight: 700; }
+  .page-title { font-size: 34px; font-weight: 800; letter-spacing: -.035em; margin: 13px 0 12px; }
+  .page-sub { font-size: 15px; line-height: 1.75; color: #6E6862; max-width: 700px; }
+  .page-head { margin-bottom: 48px; }
+
+  .group-title {
+    font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+    color: #B4551F; margin: 46px 0 6px;
+  }
+  .group-note { font-size: 13.5px; color: #6E6862; margin-bottom: 22px; }
+
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .opt {
+    background: #fff; border: 1px solid #E8E5E0; border-radius: 12px;
+    padding: 20px 22px 24px;
+  }
+  .opt-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+  .opt-id { font-family: 'Roboto Mono', monospace; font-size: 11px; font-weight: 700; color: #B4551F; letter-spacing: .1em; }
+  .opt-name { font-size: 16px; font-weight: 700; letter-spacing: -.015em; }
+  .opt-desc { font-size: 13px; line-height: 1.65; color: #6E6862; margin: 8px 0 18px; min-height: 42px; }
+
+  .demo {
+    border-top: 1px solid #EFECE7; padding-top: 20px;
+    background: #fff;
+  }
+  .demo-label { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #A9A29A; margin-bottom: 14px; }
+
+  /* ── 1. 分段控件 ── */
+  .seg {
+    display: inline-flex; background: #F2F1EE; border-radius: 9px; padding: 3px; gap: 2px;
+  }
+  .seg-item {
+    font-family: 'Roboto Mono', monospace; font-size: 11.5px; font-weight: 500;
+    padding: 6px 13px; border-radius: 7px; color: #6E6862;
+  }
+  .seg-item.on { background: #fff; color: #1D1D1F; font-weight: 700; box-shadow: 0 1px 2px rgba(0,0,0,.07); }
+
+  /* ── 2. 胶囊标签组 ── */
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip {
+    font-family: 'Roboto Mono', monospace; font-size: 11.5px; font-weight: 500;
+    padding: 6px 15px; border-radius: 999px;
+    border: 1px solid #E4E1DB; color: #6E6862; background: #fff;
+  }
+  .chip.on { background: #B4551F; border-color: #B4551F; color: #fff; font-weight: 700; }
+
+  /* ── 3. 左右箭头 ── */
+  .stepper { display: flex; align-items: center; gap: 18px; }
+  .arrow {
+    width: 34px; height: 34px; border-radius: 999px; border: 1px solid #E4E1DB;
+    display: flex; align-items: center; justify-content: center; color: #6E6862; font-size: 15px;
+  }
+  .stepper-label { font-size: 20px; font-weight: 700; letter-spacing: -.02em; }
+  .stepper-sub { font-size: 11.5px; color: #86868B; margin-top: 3px; }
+
+  /* ── 4. 文字横排 ── */
+  .textrow { display: flex; gap: 20px; align-items: baseline; }
+  .textrow-item {
+    font-family: 'Roboto Mono', monospace; font-size: 12px; color: #86868B;
+    padding-bottom: 7px; border-bottom: 2px solid transparent;
+  }
+  .textrow-item.on { color: #B4551F; font-weight: 700; border-bottom-color: #B4551F; }
+
+  /* ── 指标区 · 留白分隔 ── */
+  .m-gap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px; }
+  .m-label { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #86868B; }
+  .m-val { font-family: 'Roboto Mono', monospace; font-size: 19px; font-weight: 600; letter-spacing: -.03em; margin-top: 7px; }
+  .m-foot { font-size: 11px; color: #86868B; margin-top: 5px; }
+
+  /* ── 指标区 · 底色块 ── */
+  .m-tile { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .tile { background: #FAFAF8; border-radius: 10px; padding: 14px 15px; }
+  .tile.on { background: #FDF3EE; }
+
+  /* ── 指标区 · 顶部短线标尺 ── */
+  .m-rule { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .rule-item { border-top: 2px solid #EFECE7; padding-top: 12px; }
+  .rule-item.on { border-top-color: #B4551F; }
+
+  .foot { margin-top: 60px; padding-top: 26px; border-top: 1px solid #E8E5E0; font-size: 13.5px; color: #6E6862; line-height: 1.8; }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+    .m-gap, .m-tile, .m-rule { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="page-head">
+    <div class="page-kicker">方案 A · 细节调整</div>
+    <h1 class="page-title">去掉竖线，用什么代替</h1>
+    <p class="page-sub">
+      现在看板顶部是一排竖线刻度（12 根），加上侧边栏和顶栏的结构竖线，确实线太多了。
+      下面两组替代做法，都还是白纸赤陶的方案 A 配色，只是换了「靠什么区分信息和状态」。
+    </p>
+  </div>
+
+  <div class="group-title">第一组 · 月份切换（替掉那排竖线刻度）</div>
+  <div class="group-note">四种做法，从最有 Apple 味到最安静，都不含竖线。</div>
+
+  <div class="grid">
+    <div class="opt">
+      <div class="opt-head"><span class="opt-name">分段控件</span><span class="opt-id">M1</span></div>
+      <p class="opt-desc">灰底圆角托盘 + 选中项白色胶囊，Apple 官网最常用的控件。状态一眼可辨，完全无线。</p>
+      <div class="demo">
+        <div class="demo-label">实际效果</div>
+        <div class="seg">
+          <span class="seg-item">3月</span>
+          <span class="seg-item">4月</span>
+          <span class="seg-item">5月</span>
+          <span class="seg-item">6月</span>
+          <span class="seg-item">7月</span>
+          <span class="seg-item on">8月</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="opt">
+      <div class="opt-head"><span class="opt-name">胶囊标签组</span><span class="opt-id">M2</span></div>
+      <p class="opt-desc">每个月一枚圆角胶囊，选中项填成赤陶色。比分段控件更轻、更透气，月份多了会自动换行。</p>
+      <div class="demo">
+        <div class="demo-label">实际效果</div>
+        <div class="chips">
+          <span class="chip">3月</span>
+          <span class="chip">4月</span>
+          <span class="chip">5月</span>
+          <span class="chip">6月</span>
+          <span class="chip">7月</span>
+          <span class="chip on">8月</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="opt">
+      <div class="opt-head"><span class="opt-name">左右箭头</span><span class="opt-id">M3</span></div>
+      <p class="opt-desc">只显示当前月，用箭头前后翻。最安静、最省空间，适合你其实只关心「这个月」和「上个月」的情况。</p>
+      <div class="demo">
+        <div class="demo-label">实际效果</div>
+        <div class="stepper">
+          <span class="arrow">‹</span>
+          <div>
+            <div class="stepper-label">2026 年 8 月</div>
+            <div class="stepper-sub">共 7 名员工</div>
+          </div>
+          <span class="arrow">›</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="opt">
+      <div class="opt-head"><span class="opt-name">文字横排</span><span class="opt-id">M4</span></div>
+      <p class="opt-desc">月份文字一排排开，选中项变赤陶色并带一道短下划线。最不抢戏，靠颜色而不是控件表达状态。</p>
+      <div class="demo">
+        <div class="demo-label">实际效果</div>
+        <div class="textrow">
+          <span class="textrow-item">3月</span>
+          <span class="textrow-item">4月</span>
+          <span class="textrow-item">5月</span>
+          <span class="textrow-item">6月</span>
+          <span class="textrow-item">7月</span>
+          <span class="textrow-item on">8月</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="group-title">第二组 · 三个次要指标之间（现在是顶部细线）</div>
+  <div class="group-note">这三种都不用任何分隔线。</div>
+
+  <div class="grid">
+    <div class="opt">
+      <div class="opt-head"><span class="opt-name">纯留白</span><span class="opt-id">S1</span></div>
+      <p class="opt-desc">什么都不画，靠大间距分组。最干净，也最考验留白节奏——是 Apple 官网的做法。</p>
+      <div class="demo">
+        <div class="demo-label">实际效果</div>
+        <div class="m-gap">
+          <div>
+            <div class="m-label">应发总额</div>
+            <div class="m-val">¥986,204</div>
+            <div class="m-foot">环比 +11.2%</div>
+          </div>
+          <div>
+            <div class="m-label">扣款总额</div>
+            <div class="m-val">¥133,773</div>
+            <div class="m-foot">占应发 13.6%</div>
+          </div>
+          <div>
+            <div class="m-label">发薪人数</div>
+            <div class="m-val">7 人</div>
+            <div class="m-foot">发布 6 / 草稿 1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="opt">
+      <div class="opt-head"><span class="opt-name">淡色块</span><span class="opt-id">S2</span></div>
+      <p class="opt-desc">每个指标一个极淡的圆角底色块，靠明度差分组。信息边界清楚，又不用画线。</p>
+      <div class="demo">
+        <div class="demo-label">实际效果</div>
+        <div class="m-tile">
+          <div class="tile">
+            <div class="m-label">应发总额</div>
+            <div class="m-val">¥986,204</div>
+            <div class="m-foot">环比 +11.2%</div>
+          </div>
+          <div class="tile">
+            <div class="m-label">扣款总额</div>
+            <div class="m-val">¥133,773</div>
+            <div class="m-foot">占应发 13.6%</div>
+          </div>
+          <div class="tile">
+            <div class="m-label">发薪人数</div>
+            <div class="m-val">7 人</div>
+            <div class="m-foot">发布 6 / 草稿 1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="opt">
+      <div class="opt-head"><span class="opt-name">顶部短线标尺</span><span class="opt-id">S3</span></div>
+      <p class="opt-desc">保留一道 2px 短线，但只作为「标签」而不是分隔——选中/强调的指标用赤陶色，其余极淡。线更少、更有指向性。</p>
+      <div class="demo">
+        <div class="demo-label">实际效果</div>
+        <div class="m-rule">
+          <div class="rule-item">
+            <div class="m-label">应发总额</div>
+            <div class="m-val">¥986,204</div>
+            <div class="m-foot">环比 +11.2%</div>
+          </div>
+          <div class="rule-item">
+            <div class="m-label">扣款总额</div>
+            <div class="m-val">¥133,773</div>
+            <div class="m-foot">占应发 13.6%</div>
+          </div>
+          <div class="rule-item on">
+            <div class="m-label">发薪人数</div>
+            <div class="m-val">7 人</div>
+            <div class="m-foot">发布 6 / 草稿 1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    另外，无论你选哪个，我都会顺手清掉这几处竖线：侧边栏右边界的竖线（改用背景明度差区分）、
+    顶栏用户名和退出按钮之间的竖分隔条、以及其它页面里残留的 editorial-kpi 竖线。
+    <br><br>
+    告诉我组合，比如「M1 + S1」或「M3 + S2」，我直接改完重新部署。
+  </div>
+</div>
+</body>
+</html>

@@ -74,12 +74,10 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         </div>
         <span className="text-sm font-semibold text-foreground">喙语薪资管理</span>
       </div>
-      <Separator />
-      <div className="flex-1 py-4">
+      <div className="flex-1 pb-4 pt-2">
         <NavItems onNavigate={onNavigate} />
       </div>
-      <Separator />
-      <div className="p-4">
+      <div className="p-4 pt-6">
         <p className="text-xs text-muted-foreground truncate">
           {employee?.name || '未登录'}
         </p>
@@ -113,7 +111,7 @@ export default function AdminLayout() {
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top bar */}
-        <header className="border-b border-[var(--ink-rule)] rounded-none m-0 flex items-center justify-between px-6 py-4 anim-fade-in bg-transparent">
+        <header className="m-0 flex items-center justify-between rounded-none bg-transparent px-6 py-5 anim-fade-in">
           {/* Mobile menu trigger */}
           <div className="md:hidden">
             <Sheet open={mobileOpen} onOpenChange={(open) => setMobileOpen(open)}>
