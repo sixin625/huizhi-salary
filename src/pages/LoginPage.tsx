@@ -66,12 +66,12 @@ export default function LoginPage() {
       <div className="pointer-events-none absolute -top-32 -left-24 size-96 rounded-full bg-primary/10 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-32 -right-24 size-96 rounded-full bg-[var(--deco)]/10 blur-3xl" />
 
-      {/* 登录卡片 */}
-      <div className="relative z-10 w-full max-w-md rounded-2xl border border-border bg-card p-9 shadow-xl anim-pop-in">
+      {/* 登录卡片（v2：去掉容器，靠排印与留白） */}
+      <div className="relative z-10 w-full max-w-md p-9 anim-pop-in">
         {/* Logo / 标题区域 */}
-        <div className="mb-8 text-center">
-          <div className="mb-5 inline-flex size-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-[var(--deco)] text-[var(--primary-foreground)] shadow-lg">
-            <LockIcon className="size-8" />
+        <div className="mb-9 text-left">
+          <div className="mb-6 inline-flex size-11 items-center justify-center rounded-xl bg-[var(--ink)] text-[var(--background)] text-base font-bold">
+            喙
           </div>
           <h1 className="text-3xl font-semibold tracking-tight text-foreground">
             喙语教育
@@ -80,51 +80,55 @@ export default function LoginPage() {
         </div>
 
         {/* 登录表单 */}
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
-          {/* 用户名输入框 */}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
+          {/* 用户名输入框（v2：下划线） */}
           <div className="space-y-2">
-            <Label htmlFor="username" className="text-foreground">用户名</Label>
-            <div className="relative">
-              <UserIcon className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                id="username"
-                type="text"
-                autoComplete="username"
-                placeholder="请输入用户名"
-                className="h-10 pl-9 bg-secondary/40 border-border rounded-lg text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:shadow-[0_0_0_3px_var(--focus-ring)] focus-visible:ring-0"
-                {...register('username')}
-              />
-            </div>
+            <Label
+              htmlFor="username"
+              className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground"
+            >
+              用户名
+            </Label>
+            <Input
+              id="username"
+              type="text"
+              autoComplete="username"
+              placeholder="请输入用户名"
+              className="input-underline h-10 text-foreground placeholder:text-muted-foreground"
+              {...register('username')}
+            />
             {errors.username && (
               <p className="text-xs text-destructive">{errors.username.message}</p>
             )}
           </div>
 
-          {/* 密码输入框 */}
+          {/* 密码输入框（v2：下划线） */}
           <div className="space-y-2">
-            <Label htmlFor="password" className="text-foreground">密码</Label>
-            <div className="relative">
-              <LockIcon className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                id="password"
-                type="password"
-                autoComplete="current-password"
-                placeholder="••••••••"
-                className="h-10 pl-9 bg-secondary/40 border-border rounded-lg text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:shadow-[0_0_0_3px_var(--focus-ring)] focus-visible:ring-0"
-                {...register('password')}
-              />
-            </div>
+            <Label
+              htmlFor="password"
+              className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground"
+            >
+              密码
+            </Label>
+            <Input
+              id="password"
+              type="password"
+              autoComplete="current-password"
+              placeholder="请输入密码"
+              className="input-underline h-10 text-foreground placeholder:text-muted-foreground"
+              {...register('password')}
+            />
             {errors.password && (
               <p className="text-xs text-destructive">{errors.password.message}</p>
             )}
           </div>
 
-          {/* 登录按钮 */}
+          {/* 登录按钮（v2：pill 全圆角） */}
           <Button
             type="submit"
             size="lg"
             disabled={submitting}
-            className="h-11 w-full bg-gradient-to-b from-primary to-primary/85 text-primary-foreground shadow-sm hover:shadow-md transition-shadow"
+            className="h-12 w-full rounded-full bg-primary text-primary-foreground transition-opacity hover:opacity-90"
           >
             {submitting ? (
               <>
@@ -137,10 +141,9 @@ export default function LoginPage() {
           </Button>
         </form>
 
-        {/* 演示账号提示 */}
-        <div className="mt-6 rounded-xl border border-border bg-secondary/50 p-3 text-center anim-fade-in">
-          <p className="text-xs text-primary">普通员工：tom / 123456</p>
-          <p className="text-xs text-muted-foreground">管理员密码已单独设置，请用新密码登录</p>
+        {/* 演示账号提示（v2：hairline 分隔，去掉色块） */}
+        <div className="mt-7 border-t border-[var(--ink-rule)] pt-4 text-center anim-fade-in">
+          <p className="text-xs text-muted-foreground">员工演示账号：tom / 123456</p>
         </div>
 
         {/* 底部版权信息 */}

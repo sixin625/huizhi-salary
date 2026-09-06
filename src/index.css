@@ -30,49 +30,95 @@
   --font-mono: var(--font-mono);
 }
 
-:root {
-  /* 象牙金 · 浅色高级：象牙白底 + 暖金点缀 + 墨褐文字 + 柔阴影 */
-  --background: #F7F4EE;
-  --foreground: #2A2620;
+:root,
+[data-theme='paper'] {
+  /* 方案 A · 白纸排印舞台：纯白底 + 近黑字 + 赤陶赭唯一强调色，靠 hairline 建立层次 */
+  --background: #FFFFFF;
+  --foreground: #1D1D1F;
   --card: #FFFFFF;
-  --card-foreground: #2A2620;
+  --card-foreground: #1D1D1F;
   --popover: #FFFFFF;
-  --popover-foreground: #2A2620;
-  --primary: #B89455;
-  --primary-foreground: #2A2620;
-  --secondary: #F1ECE2;
-  --secondary-foreground: #2A2620;
-  --muted: #F1ECE2;
-  --muted-foreground: #8C8474;
-  --accent: #B89455;
-  --accent-foreground: #2A2620;
-  --destructive: #C25B4E;
+  --popover-foreground: #1D1D1F;
+  --primary: #B4551F;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F7F7F5;
+  --secondary-foreground: #1D1D1F;
+  --muted: #F7F7F5;
+  --muted-foreground: #86868B;
+  --accent: #B4551F;
+  --accent-foreground: #FFFFFF;
+  --destructive: #B4551F;
   --destructive-foreground: #FFFFFF;
-  --border: #ECE6DB;
-  --input: #F1ECE2;
-  --ring: #B89455;
+  --border: rgba(0, 0, 0, 0.10);
+  --input: rgba(0, 0, 0, 0.10);
+  --ring: #B4551F;
   --radius: 0.75rem;
   --font-sans: 'Manrope', 'Noto Sans SC', 'PingFang SC', system-ui, sans-serif;
   --font-mono: 'SFMono-Regular', 'Roboto Mono', 'Fira Code', ui-monospace, monospace;
   --font-display: 'Manrope', 'Noto Sans SC', 'PingFang SC', system-ui, sans-serif;
-  --ink: #2A2620;
-  --ink-rule: rgba(42, 38, 32, 0.12);
-  --income: #3FA98C;
-  --income-soft: rgba(63, 169, 140, 0.14);
-  --deduction: #C25B4E;
-  --deduction-soft: rgba(194, 91, 78, 0.14);
-  --deco: #B89455;
-  --focus-ring: rgba(184, 148, 85, 0.30);
-  --chart-1: #B89455;
-  --chart-2: #3FA98C;
-  --chart-3: #7E9CB8;
-  --chart-4: #C9A66B;
-  --chart-5: #A6814F;
-  --chart-6: #5E7080;
-  --shadow-sm: 0 1px 2px rgba(60, 50, 35, 0.05);
-  --shadow-md: 0 2px 10px rgba(60, 50, 35, 0.07);
-  --shadow-lg: 0 8px 26px rgba(60, 50, 35, 0.09);
-  --shadow-xl: 0 16px 48px rgba(60, 50, 35, 0.12);
+  --ink: #1D1D1F;
+  --ink-rule: rgba(0, 0, 0, 0.10);
+  --income: #1E7A5F;
+  --income-soft: rgba(30, 122, 95, 0.12);
+  --deduction: #B4551F;
+  --deduction-soft: rgba(180, 85, 31, 0.12);
+  --deco: #B4551F;
+  --focus-ring: rgba(180, 85, 31, 0.25);
+  --glow-a: rgba(180, 85, 31, 0.06);
+  --glow-b: rgba(0, 0, 0, 0.03);
+  --chart-1: #B4551F;
+  --chart-2: #1E7A5F;
+  --chart-3: #6B7A8F;
+  --chart-4: #C97B4A;
+  --chart-5: #8C4A2F;
+  --chart-6: #4A5560;
+  --shadow-sm: 0 1px 1px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.06);
+  --shadow-xl: 0 10px 34px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='obsidian'] {
+  /* 方案 B · 暗场青瓷微光：近黑底，青瓷是画面里唯一的光源 */
+  --background: #0A0A0C;
+  --foreground: #F5F5F7;
+  --card: #131316;
+  --card-foreground: #F5F5F7;
+  --popover: #131316;
+  --popover-foreground: #F5F5F7;
+  --primary: #2FC5A8;
+  --primary-foreground: #04140F;
+  --secondary: #1A1A1E;
+  --secondary-foreground: #F5F5F7;
+  --muted: #1A1A1E;
+  --muted-foreground: #8A8A8F;
+  --accent: #2FC5A8;
+  --accent-foreground: #04140F;
+  --destructive: #FF7A5C;
+  --destructive-foreground: #04140F;
+  --border: rgba(255, 255, 255, 0.12);
+  --input: rgba(255, 255, 255, 0.12);
+  --ring: #2FC5A8;
+  --ink: #F5F5F7;
+  --ink-rule: rgba(255, 255, 255, 0.12);
+  --income: #2FC5A8;
+  --income-soft: rgba(47, 197, 168, 0.16);
+  --deduction: #FF7A5C;
+  --deduction-soft: rgba(255, 122, 92, 0.16);
+  --deco: #2FC5A8;
+  --focus-ring: rgba(47, 197, 168, 0.30);
+  --glow-a: rgba(47, 197, 168, 0.10);
+  --glow-b: rgba(47, 197, 168, 0.05);
+  --chart-1: #2FC5A8;
+  --chart-2: #5AD4BC;
+  --chart-3: #7E8A99;
+  --chart-4: #1F9E88;
+  --chart-5: #A8F0E0;
+  --chart-6: #4A5560;
+  --shadow-sm: 0 1px 1px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 6px 22px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 14px 44px rgba(0, 0, 0, 0.55);
 }
 
 * {
@@ -81,7 +127,7 @@
 
 body {
   margin: 0;
-  background: #F7F4EE;
+  background: var(--background);
   min-height: 100vh;
   overflow-x: hidden;
   color: var(--foreground);
@@ -90,7 +136,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 环境光：极淡的暖金/暖褐光晕，给象牙底增加层次（不影响可读性） */
+/* 环境光：极淡的强调色光晕，为纯色底增加一点层次（不影响可读性） */
 body::before {
   content: '';
   position: fixed;
@@ -98,8 +144,8 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(60% 52% at 8% 4%, rgba(184, 148, 85, 0.12), transparent 70%),
-    radial-gradient(54% 54% at 96% 98%, rgba(166, 129, 79, 0.10), transparent 70%);
+    radial-gradient(60% 52% at 8% 4%, var(--glow-a), transparent 70%),
+    radial-gradient(54% 54% at 96% 98%, var(--glow-b), transparent 70%);
 }
 
 h1, h2, h3, h4 {
@@ -110,7 +156,7 @@ h1, h2, h3, h4 {
 .glass-card {
   background: transparent;
   border: none;
-  border-top: 2px solid var(--ink);
+  border-top: 1px solid var(--ink);
   border-radius: 0;
   box-shadow: none;
 }
@@ -232,7 +278,7 @@ h1, h2, h3, h4 {
    杂志编辑风：KPI 行（大号衬线数字 + 竖线分隔 + 上下规则线）
    ============================================================ */
 .editorial-kpi {
-  border-top: 2px solid var(--ink);
+  border-top: 1px solid var(--ink);
   border-bottom: 1px solid var(--ink-rule);
   gap: 0 !important;
 }
@@ -253,6 +299,56 @@ h1, h2, h3, h4 {
   font-variant-numeric: tabular-nums;
   line-height: 1.1;
 }
+
+/* v2 · 主指标超大等宽排印 */
+.kpi-val-xl {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: clamp(38px, 5.2vw, 62px);
+  letter-spacing: -0.045em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.num-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+/* v2 · 签名元素：横向时间轴刻度月份选择器 */
+.timeline { display: flex; align-items: flex-end; }
+.tick {
+  flex: 1;
+  text-align: center;
+  position: relative;
+  padding-bottom: 18px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+}
+.tick::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 1px;
+  height: 8px;
+  background: var(--ink-rule);
+  transition: height 0.18s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.18s ease;
+}
+.tick:hover::after { height: 14px; background: var(--muted-foreground); }
+.tick.active::after { height: 22px; width: 2px; background: var(--primary); }
+.tick-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--muted-foreground);
+  letter-spacing: 0.02em;
+}
+.tick.active .tick-label { color: var(--primary); font-weight: 700; }
+.timeline-rule { height: 1px; background: var(--ink-rule); }
 thead th {
   text-transform: uppercase;
   font-size: 11px;

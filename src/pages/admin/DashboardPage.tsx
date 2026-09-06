@@ -77,10 +77,10 @@ function formatCompact(val: number): string {
 }
 
 // ============================================================
-// 图表配色 & 样式（象牙金高级风）
+// 图表配色 & 样式（v2 · 双主题通用色阶）
 // ============================================================
 
-const CHART_COLORS = ['#B89455', '#3FA98C', '#7E9CB8', '#C9A66B', '#A6814F', '#5E7080']
+const CHART_COLORS = ['#B4551F', '#1E7A5F', '#6B7A8F', '#C97B4A', '#8C4A2F', '#4A5560']
 
 const TOOLTIP_STYLE = {
   contentStyle: {
@@ -247,29 +247,29 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-4 p-6">
-      {/* 标题 + 月份选择器 */}
-      <div className="flex flex-col gap-3 anim-fade-up sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground page-title">数据看板</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            薪资统计与数据分析 · 按月查看核心指标
-          </p>
+      {/* 标题 */}
+      <div className="anim-fade-up">
+        <h1 className="text-2xl font-bold text-foreground page-title">数据看板</h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          薪资统计与数据分析 · 按月查看核心指标
+        </p>
+      </div>
+
+      {/* v2 · 签名元素：横向时间轴刻度月份选择器 */}
+      <div className="mt-7 anim-fade-up">
+        <div className="timeline">
+          {[...availableMonths].reverse().map((m) => (
+            <button
+              key={m}
+              type="button"
+              onClick={() => handleMonthChange(m)}
+              className={cn('tick', m === selectedMonth && 'active')}
+            >
+              <span className="tick-label">{formatMonthLabel(m)}</span>
+            </button>
+          ))}
         </div>
-        <div className="flex items-center gap-2">
-          <CalendarIcon className="size-4 text-muted-foreground" />
-          <Select value={selectedMonth} onValueChange={handleMonthChange}>
-            <SelectTrigger className="w-[168px] bg-card">
-              <SelectValue placeholder="选择月份" />
-            </SelectTrigger>
-            <SelectContent>
-              {availableMonths.map((m) => (
-                <SelectItem key={m} value={m}>
-                  {formatYearLabel(m)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        <div className="timeline-rule" />
       </div>
 
       {!hasData ? (
@@ -293,54 +293,40 @@ export default function DashboardPage() {
         </div>
       ) : (
         <>
-          {/* KPI 卡片 */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 anim-stagger editorial-kpi">
-            {/* 实发总额 */}
-            <div className="glass-card glass-card-hover p-4">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="flex size-9 items-center justify-center rounded-lg bg-primary/10">
-                  <CircleDollarSignIcon className="size-5 text-primary" />
-                </div>
-                实发总额
-              </div>
-              <p className="mt-3 text-2xl font-semibold text-foreground kpi-val">
-                <CountUp value={summary!.netTotal} format={formatCompact} />
-              </p>
-              <div className="mt-1 flex items-center justify-between">
-                <ChangeBadge pct={comparison!.netChangePct} />
-                <span className="text-xs text-muted-foreground">较 {formatMonthLabel(comparison!.prevMonth)}</span>
-              </div>
+          {/* v2 · 主指标：超大等宽排印，成为页面唯一视觉重心 */}
+          <div className="mt-8 anim-fade-up">
+            <div className="num-label">
+              实发总额 · {data ? formatYearLabel(data.month) : ''}
             </div>
+            <div className="kpi-val-xl mt-2 text-foreground">
+              <CountUp
+                value={summary!.netTotal}
+                format={(v) => '¥' + Math.round(v).toLocaleString('zh-CN')}
+              />
+            </div>
+            <div className="mt-3 flex items-baseline gap-3 text-xs text-muted-foreground">
+              <ChangeBadge pct={comparison!.netChangePct} />
+              <span>较 {formatMonthLabel(comparison!.prevMonth)}</span>
+            </div>
+          </div>
 
-            {/* 应发总额 */}
-            <div className="glass-card glass-card-hover p-4">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="flex size-9 items-center justify-center rounded-lg bg-primary/10">
-                  <WalletIcon className="size-5 text-primary" />
-                </div>
-                应发总额
+          {/* v2 · 次要指标：hairline 横排，不再用卡片 */}
+          <div className="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-3 anim-stagger">
+            <div className="border-t border-[var(--ink-rule)] pt-4">
+              <div className="num-label">应发总额</div>
+              <div className="mt-1.5 font-mono text-xl font-semibold text-foreground">
+                <CountUp value={summary!.grossTotal} format={formatCurrency} />
               </div>
-              <p className="mt-3 text-2xl font-semibold text-foreground kpi-val">
-                <CountUp value={summary!.grossTotal} format={formatCompact} />
-              </p>
-              <div className="mt-1 flex items-center justify-between">
+              <div className="mt-1.5 text-xs text-muted-foreground">
                 <ChangeBadge pct={comparison!.grossChangePct} />
-                <span className="text-xs text-muted-foreground">较上月</span>
               </div>
             </div>
-
-            {/* 扣款总额 */}
-            <div className="glass-card glass-card-hover p-4">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="flex size-9 items-center justify-center rounded-lg bg-primary/10">
-                  <ReceiptIcon className="size-5 text-primary" />
-                </div>
-                扣款总额
+            <div className="border-t border-[var(--ink-rule)] pt-4">
+              <div className="num-label">扣款总额</div>
+              <div className="mt-1.5 font-mono text-xl font-semibold text-foreground">
+                <CountUp value={summary!.deductionTotal} format={formatCurrency} />
               </div>
-              <p className="mt-3 text-2xl font-semibold text-foreground kpi-val">
-                <CountUp value={summary!.deductionTotal} format={formatCompact} />
-              </p>
-              <div className="mt-1 text-xs text-muted-foreground">
+              <div className="mt-1.5 text-xs text-muted-foreground">
                 占应发{' '}
                 {summary!.grossTotal > 0
                   ? ((summary!.deductionTotal / summary!.grossTotal) * 100).toFixed(1)
@@ -348,23 +334,15 @@ export default function DashboardPage() {
                 %
               </div>
             </div>
-
-            {/* 发薪人数 */}
-            <div className="glass-card glass-card-hover p-4">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="flex size-9 items-center justify-center rounded-lg bg-primary/10">
-                  <UsersIcon className="size-5 text-primary" />
-                </div>
-                发薪人数
-              </div>
-              <p className="mt-3 text-2xl font-semibold text-foreground kpi-val">
+            <div className="border-t border-[var(--ink-rule)] pt-4">
+              <div className="num-label">发薪人数</div>
+              <div className="mt-1.5 font-mono text-xl font-semibold text-foreground">
                 <CountUp value={summary!.paidCount} decimals={0} />
                 <span className="ml-1 text-sm font-normal text-muted-foreground">人</span>
-              </p>
-              <div className="mt-1 flex items-center justify-between text-xs text-muted-foreground">
-                <span>
-                  记录 {summary!.recordCount} 条 · 发布 {summary!.publishedCount}/草稿 {summary!.draftCount}
-                </span>
+              </div>
+              <div className="mt-1.5 text-xs text-muted-foreground">
+                记录 {summary!.recordCount} 条 · 发布 {summary!.publishedCount} / 草稿{' '}
+                {summary!.draftCount}
               </div>
             </div>
           </div>
@@ -377,21 +355,22 @@ export default function DashboardPage() {
                 薪资趋势（近 12 个月 · 截至 {data?.month ? formatYearLabel(data.month) : ''}）
               </h3>
               {trendData.some((t) => t.total > 0) ? (
-                <ResponsiveContainer width="100%" height={288}>
-                  <AreaChart data={trendData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                    <defs>
-                      <linearGradient id="salaryGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#B89455" stopOpacity={0.4} />
-                        <stop offset="95%" stopColor="#B89455" stopOpacity={0} />
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(0 0% 90%)" />
-                    <XAxis dataKey="month" tick={{ fill: 'hsl(0 0% 45%)', fontSize: 12 }} axisLine={{ stroke: 'hsl(0 0% 90%)' }} tickLine={false} />
-                    <YAxis tick={{ fill: 'hsl(0 0% 45%)', fontSize: 12 }} axisLine={{ stroke: 'hsl(0 0% 90%)' }} tickLine={false} tickFormatter={(v) => formatCompact(Number(v))} />
-                    <Tooltip {...TOOLTIP_STYLE} formatter={(value) => [formatCurrency(Number(value)), '实发总额']} />
-                    <Area type="monotone" dataKey="total" stroke="#B89455" strokeWidth={2} fill="url(#salaryGradient)" dot={{ fill: '#B89455', r: 4 }} activeDot={{ r: 6 }} />
-                  </AreaChart>
-                </ResponsiveContainer>
+                <div className="text-primary">
+                  <ResponsiveContainer width="100%" height={288}>
+                    <AreaChart data={trendData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                      <defs>
+                        <linearGradient id="salaryGradient" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="currentColor" stopOpacity={0.26} />
+                          <stop offset="95%" stopColor="currentColor" stopOpacity={0} />
+                        </linearGradient>
+                      </defs>
+                      <XAxis dataKey="month" tick={{ fill: 'hsl(0 0% 45%)', fontSize: 12 }} axisLine={false} tickLine={false} />
+                      <YAxis tick={{ fill: 'hsl(0 0% 45%)', fontSize: 12 }} axisLine={false} tickLine={false} width={56} tickFormatter={(v) => formatCompact(Number(v))} />
+                      <Tooltip {...TOOLTIP_STYLE} formatter={(value) => [formatCurrency(Number(value)), '实发总额']} />
+                      <Area type="monotone" dataKey="total" stroke="currentColor" strokeWidth={1.6} fill="url(#salaryGradient)" dot={false} activeDot={{ r: 4 }} />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
               ) : (
                 <EmptyChart />
               )}
@@ -403,15 +382,16 @@ export default function DashboardPage() {
                 <Building2Icon className="mr-1 inline size-4" />校区实发对比（{data ? formatYearLabel(data.month) : ''}）
               </h3>
               {campusComparison.length > 0 ? (
-                <ResponsiveContainer width="100%" height={288}>
-                  <BarChart data={campusComparison} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(0 0% 90%)" />
-                    <XAxis dataKey="name" tick={{ fill: 'hsl(0 0% 45%)', fontSize: 12 }} axisLine={{ stroke: 'hsl(0 0% 90%)' }} tickLine={false} />
-                    <YAxis tick={{ fill: 'hsl(0 0% 45%)', fontSize: 12 }} axisLine={{ stroke: 'hsl(0 0% 90%)' }} tickLine={false} tickFormatter={(v) => formatCompact(Number(v))} />
-                    <Tooltip {...TOOLTIP_STYLE} formatter={(value) => [formatCurrency(Number(value)), '实发总额']} cursor={{ fill: 'hsl(0 0% 95%)' }} />
-                    <Bar dataKey="net" radius={[6, 6, 0, 0]} fill="rgba(184, 148, 85, 0.45)" stroke="#B89455" strokeWidth={1} />
-                  </BarChart>
-                </ResponsiveContainer>
+                <div className="text-primary">
+                  <ResponsiveContainer width="100%" height={288}>
+                    <BarChart data={campusComparison} layout="vertical" margin={{ top: 5, right: 24, bottom: 5, left: 8 }}>
+                      <XAxis type="number" tick={{ fill: 'hsl(0 0% 45%)', fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={(v) => formatCompact(Number(v))} />
+                      <YAxis type="category" dataKey="name" width={56} tick={{ fill: 'hsl(0 0% 45%)', fontSize: 12 }} axisLine={false} tickLine={false} />
+                      <Tooltip {...TOOLTIP_STYLE} formatter={(value) => [formatCurrency(Number(value)), '实发总额']} cursor={{ fill: 'rgba(128,128,128,0.08)' }} />
+                      <Bar dataKey="net" radius={[0, 3, 3, 0]} fill="currentColor" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
               ) : (
                 <EmptyChart />
               )}

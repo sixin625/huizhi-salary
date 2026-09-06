@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>喙语薪资 · 视觉重做方案 v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #FCFCFB; color: #1D1D1F;
+    font-family: 'Manrope', 'PingFang SC', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 60px 32px 110px; }
+
+  .page-kicker { font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: #A9A29A; font-weight: 700; }
+  .page-title { font-size: 38px; font-weight: 800; letter-spacing: -.035em; margin: 14px 0 14px; }
+  .page-sub { font-size: 15.5px; line-height: 1.75; color: #6E6862; max-width: 720px; }
+  .page-head { margin-bottom: 56px; }
+
+  .scheme { margin-bottom: 84px; }
+  .scheme-head { margin-bottom: 22px; }
+  .scheme-id { font-family: 'Roboto Mono', monospace; font-size: 12px; font-weight: 600; color: #B4551F; letter-spacing: .12em; }
+  .scheme-name { font-size: 26px; font-weight: 800; letter-spacing: -.025em; margin: 6px 0 8px; }
+  .scheme-tag { font-size: 15px; color: #6E6862; line-height: 1.7; margin: 0 0 4px; max-width: 820px; }
+  .signature {
+    margin-top: 12px; padding: 12px 16px; background: #fff;
+    border: 1px solid #E8E5E0; border-left: 3px solid #B4551F; border-radius: 4px;
+    font-size: 13.5px; line-height: 1.7; color: #57514B;
+  }
+  .signature b { color: #1D1D1F; font-weight: 700; }
+
+  .meta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; margin-top: 14px; }
+  .swatches { display: flex; border-radius: 5px; overflow: hidden; border: 1px solid #E8E5E0; }
+  .sw { width: 46px; height: 22px; }
+  .traits { display: flex; flex-wrap: wrap; gap: 7px; }
+  .trait { font-size: 11.5px; font-weight: 500; color: #6E6862; border: 1px solid #E8E5E0; background: #fff; border-radius: 999px; padding: 4px 11px; }
+
+  /* ── 舞台 ── */
+  .stage {
+    background: var(--bg); color: var(--text);
+    border-radius: 16px; overflow: hidden;
+    border: 1px solid rgba(0,0,0,.08);
+    display: grid; grid-template-columns: 360px 1fr;
+  }
+  .stage-col { padding: 26px; display: flex; flex-direction: column; }
+  .stage-col + .stage-col { border-left: 1px dashed rgba(128,128,128,.3); }
+  .stage-label {
+    font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase;
+    font-weight: 700; color: var(--muted); margin-bottom: 18px;
+  }
+
+  /* ── 登录页（Apple 风：大留白 + 下划线输入 + pill 按钮） ── */
+  .login-wrap { flex: 1; display: flex; align-items: center; }
+  .login-card { width: 100%; max-width: 296px; }
+  .login-mark {
+    width: 40px; height: 40px; border-radius: 11px;
+    background: var(--text); color: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 18px; margin-bottom: 26px;
+  }
+  .login-title { font-size: 30px; font-weight: 700; letter-spacing: -.03em; margin: 0; }
+  .login-sub { font-size: 13px; color: var(--muted); margin: 7px 0 34px; font-weight: 400; }
+  .field { margin-bottom: 22px; }
+  .field label {
+    display: block; font-size: 10px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+  }
+  .fake-input {
+    height: 40px; display: flex; align-items: center;
+    background: transparent; border: none; border-bottom: 1px solid var(--line);
+    font-size: 15px; color: var(--text); padding: 0;
+  }
+  .fake-input.focus { border-bottom-color: var(--accent); }
+  .btn {
+    height: 46px; margin-top: 26px; border-radius: 980px;
+    background: var(--accent); color: var(--on-accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 600; letter-spacing: -.01em;
+  }
+  .login-foot { margin-top: 22px; font-size: 11.5px; color: var(--muted); }
+
+  /* ── 应用界面（无卡片，hairline 分隔） ── */
+  .app { height: 100%; display: flex; flex-direction: column; padding: 30px 34px; }
+
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 22px;
+  }
+  .brand { display: flex; align-items: center; gap: 9px; font-size: 13px; font-weight: 600; }
+  .brand-mark {
+    width: 22px; height: 22px; border-radius: 6px;
+    background: var(--text); color: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+  }
+  .who { font-size: 12px; color: var(--muted); }
+
+  /* 页面大标题 */
+  .hero { margin: 18px 0 0; }
+  .hero-eyebrow {
+    font-size: 10.5px; font-weight: 700; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+  }
+  .hero-title { font-size: 34px; font-weight: 700; letter-spacing: -.035em; margin: 0; line-height: 1.15; }
+  .hero-sub { font-size: 13px; color: var(--muted); margin-top: 9px; }
+
+  /* 签名：时间轴刻度月份选择器 */
+  .timeline { display: flex; align-items: flex-end; gap: 0; margin: 30px 0 6px; }
+  .tick { flex: 1; text-align: center; position: relative; padding-bottom: 20px; cursor: default; }
+  .tick::after {
+    content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+    bottom: 0; width: 1px; height: 8px; background: var(--line);
+  }
+  .tick.major::after { height: 14px; background: var(--muted); }
+  .tick.active::after { height: 22px; width: 2px; background: var(--accent); }
+  .tick-label {
+    font-family: 'Roboto Mono', monospace; font-size: 10px; color: var(--muted);
+    letter-spacing: .02em;
+  }
+  .tick.active .tick-label { color: var(--accent); font-weight: 700; }
+  .timeline-rule { height: 1px; background: var(--line); }
+
+  /* 主数字舞台 */
+  .stage-number { margin: 34px 0 6px; }
+  .num-label {
+    font-size: 10.5px; font-weight: 700; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+  }
+  .num-value {
+    font-family: 'Roboto Mono', monospace; font-weight: 600;
+    font-size: 62px; line-height: 1; letter-spacing: -.045em;
+  }
+  .num-meta { display: flex; align-items: baseline; gap: 14px; margin-top: 14px; font-size: 12px; color: var(--muted); }
+  .delta { font-weight: 700; font-family: 'Roboto Mono', monospace; }
+  .up { color: var(--income); }
+  .down { color: var(--deduction); }
+
+  .rule { height: 1px; background: var(--line); margin: 26px 0; }
+
+  /* 次要指标（hairline 横排，非卡片） */
+  .metrics { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .metric { padding: 0 20px; border-left: 1px solid var(--line); }
+  .metric:first-child { padding-left: 0; border-left: none; }
+  .metric-label { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .metric-val { font-family: 'Roboto Mono', monospace; font-size: 21px; font-weight: 600; letter-spacing: -.03em; margin-top: 8px; }
+  .metric-foot { font-size: 11px; color: var(--muted); margin-top: 5px; }
+
+  /* 区块 */
+  .block { margin-top: 30px; }
+  .block-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding-bottom: 12px; border-bottom: 1px solid var(--line); margin-bottom: 16px;
+  }
+  .block-title { font-size: 13px; font-weight: 700; letter-spacing: -.01em; }
+  .block-note { font-size: 11px; color: var(--muted); font-family: 'Roboto Mono', monospace; }
+
+  /* 趋势图：极细线 + 无网格 */
+  .spark { width: 100%; height: 92px; display: block; }
+
+  /* 校区：横向细条（非柱状） */
+  .rows { display: flex; flex-direction: column; gap: 13px; }
+  .row-line { display: grid; grid-template-columns: 52px 1fr 78px; align-items: center; gap: 12px; }
+  .row-name { font-size: 12px; color: var(--muted); }
+  .row-track { height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; }
+  .row-fill { height: 100%; background: var(--accent); border-radius: 2px; }
+  .row-val { font-family: 'Roboto Mono', monospace; font-size: 12px; text-align: right; font-weight: 500; }
+
+  /* 明细表：hairline */
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th {
+    text-align: left; font-size: 10px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--muted); padding: 0 0 9px;
+    border-bottom: 1px solid var(--line);
+  }
+  td { padding: 11px 0; border-bottom: 1px solid var(--line); }
+  tr:last-child td { border-bottom: none; }
+  .num { text-align: right; font-family: 'Roboto Mono', monospace; font-variant-numeric: tabular-nums; }
+  .ded { color: var(--deduction); }
+  .net { font-weight: 600; }
+
+  .foot-note { margin-top: 66px; padding-top: 28px; border-top: 1px solid #E8E5E0; font-size: 13.5px; color: #6E6862; line-height: 1.8; }
+
+  @media (max-width: 980px) {
+    .stage { grid-template-columns: 1fr; }
+    .stage-col + .stage-col { border-left: none; border-top: 1px dashed rgba(128,128,128,.3); }
+    .metrics { grid-template-columns: 1fr; gap: 16px; }
+    .metric { padding: 0; border-left: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="page-head">
+    <div class="page-kicker">喙语薪资 · 视觉重做 v2</div>
+    <h1 class="page-title">换掉后台语言，改成产品语言</h1>
+    <p class="page-sub">
+      上一版我还是在用「卡片 + 强调色」的通用后台套路。这一版彻底换掉：不用卡片容器，改由
+      <b>超大排印 + hairline 细线 + 空间节奏</b> 建立层次；月份切换做成横向时间轴刻度尺；
+      配色离开金 / 蓝 / 灰。登录页与看板都是你系统里的真实内容与结构。
+    </p>
+  </div>
+
+  <div id="gallery"></div>
+
+  <div class="foot-note">
+    两个方向都是同一套信息架构，只是明度与强调色不同。选一个，或告诉我「A 的浅底 + B 的强调色」这类组合，
+    以及时间轴刻度这个签名元素要不要保留——我直接改 CSS 变量落地到线上。
+  </div>
+</div>
+
+<script>
+const TEMPLATE = `
+  <div class="stage-col">
+    <div class="stage-label">登录页</div>
+    <div class="login-wrap">
+      <div class="login-card">
+        <div class="login-mark">喙</div>
+        <h3 class="login-title">喙语教育</h3>
+        <p class="login-sub">薪资管理系统</p>
+        <div class="field">
+          <label>用户名</label>
+          <div class="fake-input">admin</div>
+        </div>
+        <div class="field">
+          <label>密码</label>
+          <div class="fake-input focus">••••••••</div>
+        </div>
+        <div class="btn">登录</div>
+        <div class="login-foot">员工账号：tom / 123456</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage-col">
+    <div class="stage-label">数据看板</div>
+    <div class="app">
+      <div class="topbar">
+        <div class="brand"><span class="brand-mark">喙</span><span>喙语薪资</span></div>
+        <div class="who">王小明</div>
+      </div>
+
+      <div class="hero">
+        <div class="hero-eyebrow">薪资概览</div>
+        <h1 class="hero-title">2026 年 8 月</h1>
+        <div class="hero-sub">共 7 名员工 · 6 条已发布 / 1 条草稿</div>
+      </div>
+
+      <div class="timeline">
+        <div class="tick"><span class="tick-label">3月</span></div>
+        <div class="tick"><span class="tick-label">4月</span></div>
+        <div class="tick"><span class="tick-label">5月</span></div>
+        <div class="tick major"><span class="tick-label">6月</span></div>
+        <div class="tick"><span class="tick-label">7月</span></div>
+        <div class="tick active"><span class="tick-label">8月</span></div>
+      </div>
+      <div class="timeline-rule"></div>
+
+      <div class="stage-number">
+        <div class="num-label">实发总额</div>
+        <div class="num-value">¥852,431</div>
+        <div class="num-meta">
+          <span class="delta up">+13.5%</span>
+          <span>较 7 月 +¥101,280</span>
+        </div>
+      </div>
+
+      <div class="rule"></div>
+
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-label">应发总额</div>
+          <div class="metric-val">¥986,204</div>
+          <div class="metric-foot">环比 +11.2%</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">扣款总额</div>
+          <div class="metric-val">¥133,773</div>
+          <div class="metric-foot">占应发 13.6%</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">人均实发</div>
+          <div class="metric-val">¥121,776</div>
+          <div class="metric-foot">7 人</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <span class="block-title">近 12 个月实发趋势</span>
+          <span class="block-note">万元</span>
+        </div>
+        <svg class="spark" viewBox="0 0 600 110" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="fade-KEY" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="var(--accent)" stop-opacity=".26"/>
+              <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d="M0,88 L54.5,93 L109,80 L163.5,86 L218,71 L272.5,75 L327,63 L381.5,68 L436,54 L490.5,58 L545,45 L600,26 L600,110 L0,110 Z" fill="url(#fade-KEY)"/>
+          <path d="M0,88 L54.5,93 L109,80 L163.5,86 L218,71 L272.5,75 L327,63 L381.5,68 L436,54 L490.5,58 L545,45 L600,26" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+          <circle cx="600" cy="26" r="3.2" fill="var(--accent)"/>
+        </svg>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <span class="block-title">校区对比 · 实发总额</span>
+          <span class="block-note">2026-08</span>
+        </div>
+        <div class="rows">
+          <div class="row-line"><span class="row-name">李沧</span><span class="row-track"><span class="row-fill" style="width:100%"></span></span><span class="row-val">¥241,600</span></div>
+          <div class="row-line"><span class="row-name">市南</span><span class="row-track"><span class="row-fill" style="width:82%"></span></span><span class="row-val">¥198,120</span></div>
+          <div class="row-line"><span class="row-name">黄岛</span><span class="row-track"><span class="row-fill" style="width:75%"></span></span><span class="row-val">¥181,050</span></div>
+          <div class="row-line"><span class="row-name">崂山</span><span class="row-track"><span class="row-fill" style="width:61%"></span></span><span class="row-val">¥147,320</span></div>
+          <div class="row-line"><span class="row-name">城阳</span><span class="row-track"><span class="row-fill" style="width:46%"></span></span><span class="row-val">¥111,240</span></div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <span class="block-title">当月薪资明细</span>
+          <span class="block-note">7 条</span>
+        </div>
+        <table>
+          <thead><tr>
+            <th>姓名</th><th class="num">应发</th><th class="num">扣款</th><th class="num">实发</th>
+          </tr></thead>
+          <tbody>
+            <tr><td>张伟</td><td class="num">12,800</td><td class="num ded">1,240</td><td class="num net">11,560</td></tr>
+            <tr><td>李娜</td><td class="num">9,600</td><td class="num ded">980</td><td class="num net">8,620</td></tr>
+            <tr><td>王强</td><td class="num">15,200</td><td class="num ded">1,880</td><td class="num net">13,320</td></tr>
+            <tr><td>赵敏</td><td class="num">8,400</td><td class="num ded">760</td><td class="num net">7,640</td></tr>
+            <tr><td>陈静</td><td class="num">11,000</td><td class="num ded">1,100</td><td class="num net">9,900</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+`;
+
+const SCHEMES = [
+  {
+    id: 'A',
+    name: '白纸 · 排印舞台',
+    tag: '纯白底 + 近黑字，靠字号尺度和 hairline 撑起整个页面。主指标 ¥852,431 以 62px 等宽字体独占视觉重心，下方三个次要指标用细线横排，完全没有卡片边框和阴影。像 Apple 产品页那样：留白不是空，是节奏。',
+    signature: '签名元素：<b>横向时间轴刻度尺</b>——月份切换不是下拉框，而是像视频时间轴的一排刻度，当前月用赤陶色加粗刻度标识。这是你系统独有的记忆点，别处看不到。',
+    traits: ['无卡片 · hairline 分隔', '62px 超大数字排印', '赤陶赭单一强调色', '时间轴刻度月份选择器'],
+    swatches: ['#FFFFFF', '#1D1D1F', '#B4551F', '#86868B'],
+    vars: {
+      '--bg': '#FFFFFF',
+      '--text': '#1D1D1F',
+      '--muted': '#86868B',
+      '--line': 'rgba(0,0,0,0.10)',
+      '--accent': '#B4551F',
+      '--on-accent': '#FFFFFF',
+      '--income': '#1E7A5F',
+      '--deduction': '#B4551F'
+    }
+  },
+  {
+    id: 'B',
+    name: '暗场 · 青瓷微光',
+    tag: '近黑底，数字自带微光。同样放弃卡片，靠极淡的背景明度差区分层次，趋势曲线是唯一发光体——像 Apple Watch 的活动环那种克制的光。适合投屏给老板看，或你晚上对账时眼睛更舒服。',
+    signature: '签名元素：同上时间轴刻度尺，但当前月刻度<b>发光</b>；主数字用青瓷色高亮，与深色底形成唯一的冷暖对比，让「钱」成为画面里最亮的东西。',
+    traits: ['近黑底 · 零卡片', '青瓷色唯一光源', '数字高亮为视觉焦点', '发光时间轴刻度'],
+    swatches: ['#0A0A0C', '#F5F5F7', '#2FC5A8', '#8A8A8F'],
+    vars: {
+      '--bg': '#0A0A0C',
+      '--text': '#F5F5F7',
+      '--muted': '#8A8A8F',
+      '--line': 'rgba(255,255,255,0.12)',
+      '--accent': '#2FC5A8',
+      '--on-accent': '#04140F',
+      '--income': '#2FC5A8',
+      '--deduction': '#FF7A5C'
+    }
+  }
+];
+
+const gallery = document.getElementById('gallery');
+
+SCHEMES.forEach((s) => {
+  const section = document.createElement('section');
+  section.className = 'scheme';
+  const styleStr = Object.entries(s.vars).map(([k, v]) => `${k}:${v}`).join(';');
+
+  section.innerHTML = `
+    <div class="scheme-head">
+      <div class="scheme-id">方案 ${s.id}</div>
+      <h2 class="scheme-name">${s.name}</h2>
+      <p class="scheme-tag">${s.tag}</p>
+      <div class="signature">${s.signature}</div>
+      <div class="meta-row">
+        <div class="swatches">
+          ${s.swatches.map((c) => `<div class="sw" style="background:${c}"></div>`).join('')}
+        </div>
+        <div class="traits">
+          ${s.traits.map((t) => `<span class="trait">${t}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+    <div class="stage" style="${styleStr}">
+      ${TEMPLATE.replace(/KEY/g, s.id)}
+    </div>
+  `;
+  gallery.appendChild(section);
+});
+</script>
+</body>
+</html>
