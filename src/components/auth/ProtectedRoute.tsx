@@ -2,7 +2,8 @@ import { Navigate, Outlet } from 'react-router-dom'
 import { useAuthStore } from '@/stores/auth'
 
 interface ProtectedRouteProps {
-  role?: 'admin' | 'employee'
+  /** 系统已下线员工自助端，仅保留管理员入口 */
+  role?: 'admin'
 }
 
 export function ProtectedRoute({ role }: ProtectedRouteProps) {
@@ -44,11 +45,8 @@ export function ProtectedRoute({ role }: ProtectedRouteProps) {
   }
 
   if (role === 'admin' && !isAdmin()) {
-    return <Navigate to="/employee/payslip" replace />
-  }
-
-  if (role === 'employee' && isAdmin()) {
-    return <Navigate to="/admin/dashboard" replace />
+    // 员工自助端已下线：非管理员直接登出并回到登录页
+    return <Navigate to="/login" replace />
   }
 
   return <Outlet />

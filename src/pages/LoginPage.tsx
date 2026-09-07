@@ -4,11 +4,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { toast } from 'sonner'
-import {
-  Loader2Icon,
-  LockIcon,
-  UserIcon,
-} from 'lucide-react'
+import { Loader2Icon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -22,7 +18,7 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>
 
 export default function LoginPage() {
-  const { user, loading, signIn, isAdmin } = useAuthStore()
+  const { user, loading, signIn } = useAuthStore()
   const [submitting, setSubmitting] = useState(false)
 
   const {
@@ -46,9 +42,9 @@ export default function LoginPage() {
     )
   }
 
-  // 已登录 — 由路由自动跳转
+  // 已登录 — 由路由自动跳转（员工自助端已下线，统一进管理员后台）
   if (user) {
-    return <Navigate to={isAdmin() ? '/admin/dashboard' : '/employee/payslip'} replace />
+    return <Navigate to="/admin/dashboard" replace />
   }
 
   const onSubmit = async (data: LoginFormData) => {
@@ -141,13 +137,8 @@ export default function LoginPage() {
           </Button>
         </form>
 
-        {/* 演示账号提示（v2：hairline 分隔，去掉色块） */}
-        <div className="mt-7 border-t border-[var(--ink-rule)] pt-4 text-center anim-fade-in">
-          <p className="text-xs text-muted-foreground">员工演示账号：tom / 123456</p>
-        </div>
-
         {/* 底部版权信息 */}
-        <div className="mt-4 text-center text-xs text-muted-foreground">
+        <div className="mt-8 text-center text-xs text-muted-foreground anim-fade-in">
           <p>© 2025 青岛喙语教育科技有限公司</p>
           <p className="mt-1">v1.0.0</p>
         </div>

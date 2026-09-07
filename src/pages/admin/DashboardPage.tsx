@@ -2,14 +2,9 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import {
-  CircleDollarSignIcon,
-  UsersIcon,
-  WalletIcon,
-  ReceiptIcon,
   TrendingUpIcon,
   TrendingDownIcon,
   ArrowRightIcon,
-  CalendarIcon,
   Building2Icon,
   BriefcaseIcon,
   FileTextIcon,
@@ -25,7 +20,6 @@ import {
   Cell,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
   Legend,
@@ -35,13 +29,6 @@ import { cn } from '@/lib/utils'
 import { CountUp } from '@/components/ui/count-up'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import {
   Table,
   TableBody,

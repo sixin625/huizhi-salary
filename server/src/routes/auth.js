@@ -36,6 +36,11 @@ router.post('/login', (req, res) => {
       return res.status(401).json({ error: '用户名或密码错误' })
     }
 
+    // 员工自助端已下线：仅管理员账号可以登录后台
+    if (!user.is_admin) {
+      return res.status(403).json({ error: '该账号无后台访问权限，请联系管理员' })
+    }
+
     const token = jwt.sign(
       { id: user.id, username: user.username, is_admin: user.is_admin },
       process.env.JWT_SECRET,
