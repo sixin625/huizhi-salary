@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useAuthStore } from '@/stores/auth'
+import { BrandIcon } from '@/components/BrandIcon'
 
 const loginSchema = z.object({
   username: z.string().min(1, '请输入用户名'),
@@ -66,13 +67,13 @@ export default function LoginPage() {
       <div className="relative z-10 w-full max-w-md p-9 anim-pop-in">
         {/* Logo / 标题区域 */}
         <div className="mb-9 text-left">
-          <div className="mb-6 inline-flex size-11 items-center justify-center rounded-xl bg-[var(--ink)] text-[var(--background)] text-base font-bold">
-            喙
-          </div>
+          <BrandIcon size={48} radius={16} fontSize={20} className="mb-6" />
           <h1 className="text-3xl font-semibold tracking-tight text-foreground">
             喙语教育
           </h1>
-          <p className="mt-1.5 text-sm text-muted-foreground">薪资管理系统</p>
+          <p className="mt-1.5 text-[10px] font-semibold tracking-[0.22em] uppercase text-muted-foreground/70">
+            Salary · 薪资管理系统
+          </p>
         </div>
 
         {/* 登录表单 */}
