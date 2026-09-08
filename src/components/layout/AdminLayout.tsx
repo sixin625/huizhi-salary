@@ -68,11 +68,29 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const { employee } = useAuthStore()
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center gap-2 px-6 py-5">
-        <div className="flex size-8 items-center justify-center rounded-none bg-[var(--ink)] text-white text-sm font-bold">
+      <div className="flex items-center gap-3 px-6 py-6">
+        {/* 品牌字标：渐变赤陶/青瓷 + 高光内阴影（Apple Music app icon 质感） */}
+        <div
+          className="grid size-9 shrink-0 place-items-center rounded-xl text-[15px] font-bold leading-none"
+          style={{
+            background:
+              'linear-gradient(135deg, var(--primary) 0%, color-mix(in oklab, var(--primary) 86%, black) 100%)',
+            color: 'var(--primary-foreground)',
+            boxShadow:
+              'inset 0 1px 0 rgba(255,255,255,0.20), inset 0 -1px 0 rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.05)',
+          }}
+        >
           喙
         </div>
-        <span className="text-sm font-semibold text-foreground">喙语薪资管理</span>
+        {/* 双行品牌排印：中文主标题 + 字距英文副标题 */}
+        <div className="flex flex-col gap-[3px] leading-none">
+          <span className="text-[14px] font-bold tracking-tight text-foreground">
+            喙语薪资
+          </span>
+          <span className="text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground/70">
+            Salary · 薪资
+          </span>
+        </div>
       </div>
       <div className="flex-1 pb-4 pt-2">
         <NavItems onNavigate={onNavigate} />
